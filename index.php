@@ -25,6 +25,9 @@
         <label for="mdp">Mot de passe : 
             <input id="input-inscription-mdp" name="mdp" type="password" required />
         </label>
+        <label for="mdp-confirm">Confirmation du mot de passe : 
+            <input id="input-inscription-mdp-confirm" name="mdp-confirm" type="password" required />
+        </label>
         <input type="submit" value="Submit" />
     </form>
     <div id="retour-inscription"><ul></ul></div>

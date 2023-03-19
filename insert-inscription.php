@@ -8,9 +8,9 @@
 //$sql = 'a';
 
 
-if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && isset($_POST["nom"]) && isset($_POST["pseudo"]))
+if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && isset($_POST["nom"]) && isset($_POST["pseudo"]) && isset($_POST["mdp-confirm"]))
 {
-    $existe='ok';
+    $existe=true;
     if(!empty($_POST['email']))
     {
         /*try
@@ -33,19 +33,40 @@ if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && 
 	        $sql=$e;
             $mail='Problème serveur, veuillez réessayer plus tard';
         }*/
-        $mail='ok';
+        $mail=true;
 
     }
     else
     {
         $mail = 'Le champ email est obligatoire.';
-        //$erreur='Des valeurs sont vides';
     }
 
 
     if(!empty($_POST['mdp']))
     {
-        $mdp='ok';
+        if(preg_match( '~[A-Z]~', $_POST["mdp"]) && preg_match( '~[a-z]~', $_POST["mdp"]) && preg_match( '~\d~', $_POST["mdp"]) && (strlen( $_POST["mdp"]) > 7))
+		{
+			if(!empty($_POST['mdp-confirm']))
+			{
+				if($_POST['mdp-confirm'] == $_POST['mdp'])
+				{
+					$mdp=true;
+				}
+				else
+				{
+					$mdp='Le mot de passe doit être le même que sa confirmation.';
+				}
+			}
+			else
+			{
+				$mdp='Veuillez confirmer le mot de passe.';
+			}
+		}
+        else
+		{
+			$mdp='Le mot de passe doit contenir au moins 8 caractères avec au moins un chiffre, une majuscule, une minuscule.';
+		}
+
     }
     else
     {
@@ -55,7 +76,7 @@ if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && 
 
     if(!empty($_POST['prenom']))
     {
-        $prenom='ok';
+        $prenom=true;
     }
     else
     {
@@ -65,7 +86,7 @@ if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && 
 
     if(!empty($_POST['nom']))
     {
-        $nom='ok';
+        $nom=true;
     }
     else
     {
@@ -87,7 +108,7 @@ if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && 
             }
             else
             {
-                $pseudo='ok';
+                $pseudo=true;
             }
         }
         catch(PDOException $e)
@@ -106,10 +127,10 @@ else
     $existe = 'Des valeurs ne sont pas envoyées';
 }
 
-if($existe=='ok' && $mail=='ok' && $mdp=='ok' && $prenom=='ok' && $nom=='ok' && $pseudo=='ok')
+if($existe==true && $mail==true && $mdp==true && $prenom==true && $nom==true && $pseudo==true)
 {
 
-    $sql='ok';
+    $sql=true;
     try
     {
         include("connexion-base.php");
@@ -134,4 +155,6 @@ else
 }
 
 echo json_encode(array('existe' => $existe, 'mail' => $mail, 'pseudo' => $pseudo, 'mdp' => $mdp, 'prenom' => $prenom, 'nom' => $nom, 'sql' => $sql));
+//echo json_encode(array('controle' => array('existe' => $existe, 'sql' => 'test'), 'formulaire' => array('mail' => $mail, 'pseudo' => $pseudo, 'mdp' => $mdp, 'prenom' => $prenom, 'nom' => $nom)));
+//echo json_encode(array('existe' => $existe, 'liste' => array(array('element'=>'mail','valeur' => $mail), array('element'=>'mdp','valeur' => $mdp))));
 ?>

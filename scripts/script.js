@@ -26,41 +26,91 @@ function requete(data) {
 }
 
 function afficherMessage(res) {
+    var objets = {  //La liste de tous les id pour pouvoir changer la couleur
+        "mail": "input-inscription-email",
+        "mdp": "input-inscription-mdp",
+        "prenom": "input-prenom",
+        "nom": "input-nom",
+        "pseudo": "input-inscription-pseudo"
+    };
     document.getElementById("retour-inscription").innerHTML = "";
 
-    if (res.existe !== 'ok') {
+    if (res.existe !== true) {
         ecrireRetour("retour-inscription", res.existe);
     }
-    if (res.mail !== 'ok') {
+
+    for (var value in res) {
+        if (objets[value] !== undefined) {
+            if (res[value] !== true) {
+                ecrireRetour("retour-inscription", res[value]);
+                mettreRouge(objets[value]);
+            }
+            else {
+                supprimerRouge(objets[value]);
+            }
+        }
+    }
+
+    var nbTrue = 0;
+
+    for (var value in res) {
+        if (res[value] == true) {
+            nbTrue++;
+        }
+    }
+    if (nbTrue == (Object.keys(res).length - 1) && res.sql !== true) {  //Si tout est ok sauf la valeur $sql
+        ecrireRetour("retour-inscription", "Erreur d'envoie des données");
+    }
+
+    let allValueTrue = Object.values(res).every((value) => {
+        return value === true;
+    })
+    if (allValueTrue) { //Si tout est bon
+        alert('Inscription OK');
+        document.getElementById("retour-inscription").innerHTML = "";
+        //location.reload();
+    }
+
+    /*if (res.existe === 'ok' && res.mail === 'ok' && res.pseudo === 'ok' && res.mdp === 'ok' && res.prenom === 'ok' && res.nom === 'ok') {
+        if (res.sql !== 'ok') {
+            ecrireRetour("retour-inscription", "Erreur d'envoie des données");
+        }
+    }*/
+    /*if (res.mail !== 'ok') {
         ecrireRetour("retour-inscription", res.mail);
         mettreRouge("input-inscription-email");
+    }
+    else {
+        supprimerRouge("input-inscription-email");
     }
     if (res.mdp !== 'ok') {
         ecrireRetour("retour-inscription", res.mdp);
         mettreRouge("input-inscription-mdp");
     }
+    else {
+        supprimerRouge("input-inscription-mdp");
+    }
     if (res.prenom !== 'ok') {
         ecrireRetour("retour-inscription", res.prenom);
         mettreRouge("input-prenom");
+    }
+    else {
+        supprimerRouge("input-prenom");
     }
     if (res.nom !== 'ok') {
         ecrireRetour("retour-inscription", res.nom);
         mettreRouge("input-nom");
     }
+    else {
+        supprimerRouge("input-nom");
+    }
     if (res.pseudo !== 'ok') {
         ecrireRetour("retour-inscription", res.pseudo);
         mettreRouge("input-inscription-pseudo");
     }
-    if (res.existe === 'ok' && res.mail === 'ok' && res.pseudo === 'ok' && res.mdp === 'ok' && res.prenom === 'ok' && res.nom === 'ok') {
-        if (res.sql !== 'ok') {
-            ecrireRetour("retour-inscription", "Erreur d'envoie des données");
-        }
-    }
-    if (res.existe === 'ok' && res.mail === 'ok' && res.pseudo === 'ok' && res.mdp === 'ok' && res.prenom === 'ok' && res.nom === 'ok' && res.sql === 'ok') {
-        alert('Inscription OK');
-        document.getElementById("retour-inscription").innerHTML = "";
-        //location.reload();
-    }
+    else {
+        supprimerRouge("input-inscription-pseudo");
+    }*/
 }
 
 function ecrireRetour(obj_id, retour) {
@@ -70,4 +120,9 @@ function ecrireRetour(obj_id, retour) {
 function mettreRouge(obj_id) {
     document.getElementById(obj_id).style.color = "red";
     document.getElementById(obj_id).style.borderColor = "red";
+}
+
+function supprimerRouge(obj_id) {
+    document.getElementById(obj_id).style.removeProperty("color");
+    document.getElementById(obj_id).style.removeProperty("border-color");
 }
