@@ -31,7 +31,8 @@ function afficherMessage(res) {
         "mdp": "input-inscription-mdp",
         "prenom": "input-prenom",
         "nom": "input-nom",
-        "pseudo": "input-inscription-pseudo"
+        "pseudo": "input-inscription-pseudo",
+        "date": "input-inscription-date"
     };
     document.getElementById("retour-inscription").innerHTML = "";
 

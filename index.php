@@ -19,6 +19,9 @@
         <label for="email">Email : 
             <input id="input-inscription-email" name="email" type="email" required />
         </label>
+        <label for="date-naissance">Date de naissance : 
+            <input id="input-inscription-date" name="date-naissance" type="date" required />
+        </label>
         <label for="pseudo">Pseudo : 
             <input id="input-inscription-pseudo" name="pseudo" type="text" required />
         </label>

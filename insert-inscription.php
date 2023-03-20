@@ -8,7 +8,7 @@
 //$sql = 'a';
 
 
-if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && isset($_POST["nom"]) && isset($_POST["pseudo"]) && isset($_POST["mdp-confirm"]))
+if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && isset($_POST["nom"]) && isset($_POST["pseudo"]) && isset($_POST["mdp-confirm"]) && isset($_POST['date-naissance']))
 {
     $existe=true;
     if(!empty($_POST['email']))
@@ -93,6 +93,15 @@ if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && 
         $nom='Le champ nom est obligatoire.';
     }
 
+    if(!empty($_POST['date-naissance']))
+    {
+        $date=true;
+    }
+    else
+    {
+        $date='Le champ date de naissance est obligatoire.';
+    }
+
     if(!empty($_POST['pseudo']))
     {
         try
@@ -127,9 +136,8 @@ else
     $existe = 'Des valeurs ne sont pas envoyées';
 }
 
-if($existe==true && $mail==true && $mdp==true && $prenom==true && $nom==true && $pseudo==true)
+if($existe===true && $mail===true && $date===true && $mdp===true && $prenom===true && $nom===true && $pseudo===true)   ///triple = test la valeur et le type
 {
-
     $sql=true;
     try
     {
@@ -154,7 +162,9 @@ else
     $sql='Des valeurs ne sont pas bonnes';
 }
 
-echo json_encode(array('existe' => $existe, 'mail' => $mail, 'pseudo' => $pseudo, 'mdp' => $mdp, 'prenom' => $prenom, 'nom' => $nom, 'sql' => $sql));
+//echo date("Y", strtotime($_POST['date-naissance']));
+
+echo json_encode(array('existe' => $existe, 'mail' => $mail,'date' => $date, 'pseudo' => $pseudo, 'mdp' => $mdp, 'prenom' => $prenom, 'nom' => $nom, 'sql' => $sql));
 //echo json_encode(array('controle' => array('existe' => $existe, 'sql' => 'test'), 'formulaire' => array('mail' => $mail, 'pseudo' => $pseudo, 'mdp' => $mdp, 'prenom' => $prenom, 'nom' => $nom)));
 //echo json_encode(array('existe' => $existe, 'liste' => array(array('element'=>'mail','valeur' => $mail), array('element'=>'mdp','valeur' => $mdp))));
 ?>
