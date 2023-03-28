@@ -3,8 +3,8 @@
 if(isset($_POST['login']) && isset($_POST['mdp']))
 {
     $existe=true;
-    $login=false;   //On définie les variables a false avant le test
-    $mdp=false;
+    $login='';   //On définie les variables vides avant le test
+    $mdp='';
     if (!empty($_POST['login']))
     {
         if (!empty($_POST['mdp']))
