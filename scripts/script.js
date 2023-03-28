@@ -69,7 +69,7 @@ function afficherMessage(res) {
     if (allValueTrue) { //Si tout est bon
         alert('Inscription OK');
         document.getElementById("retour-inscription").innerHTML = "";
-        //location.reload();
+        location.href = "home-page.php";
     }
 
     /*if (res.existe === 'ok' && res.mail === 'ok' && res.pseudo === 'ok' && res.mdp === 'ok' && res.prenom === 'ok' && res.nom === 'ok') {
