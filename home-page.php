@@ -1,3 +1,3 @@
 <?php
-	echo "bonjour ".$_COOKIE["pseudo"];
+	echo "bonjour ".$_COOKIE["login"];
 ?>

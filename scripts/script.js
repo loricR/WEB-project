@@ -127,3 +127,80 @@ function supprimerRouge(obj_id) {
     document.getElementById(obj_id).style.removeProperty("color");
     document.getElementById(obj_id).style.removeProperty("border-color");
 }
+
+
+
+//------CONNEXION----
+
+
+
+window.addEventListener("load", function init() {
+    document.getElementById("form-connexion").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var data = new FormData(this);
+        requeteConnexion(data);
+        return false;
+    })
+});
+
+function requeteConnexion(data) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = this.response;
+            afficherMessageConnexion(res);
+        }
+        if (this.readyState == 4 && this.status == 404) {
+            alert("Erreur 404");
+        }
+    };
+
+    xhr.open("POST", "login.php", true);
+    xhr.responseType = "json";
+    xhr.send(data);
+}
+
+function afficherMessageConnexion(res) {
+    var objets = {  //La liste de tous les id pour pouvoir changer la couleur
+        "mdp": "input-connexion-mdp",
+        "login": "input-connexion-pseudo"
+    };
+    document.getElementById("retour-connexion").innerHTML = "";
+
+    if (res.existe !== true) {
+        ecrireRetour("retour-connexion", res.existe);
+    }
+
+    for (var value in res) {
+        if (objets[value] !== undefined) {
+            if (res[value] !== true) {
+                ecrireRetour("retour-connexion", res[value]);
+                mettreRouge(objets[value]); 
+            }
+            else {
+                supprimerRouge(objets[value]);
+            }
+        }
+    }
+
+    var nbTrue = 0;
+
+    for (var value in res) {
+        if (res[value] == true) {
+            nbTrue++;
+        }
+    }
+    if (nbTrue == (Object.keys(res).length - 1) && res.sql !== true) {  //Si tout est ok sauf la valeur $sql
+        ecrireRetour("retour-connexion", "Erreur d'envoie des données");
+    }
+
+    let allValueTrue = Object.values(res).every((value) => {
+        return value === true;
+    })
+    if (allValueTrue) { //Si tout est bon
+        alert('Connexion OK');
+        document.getElementById("retour-connexion").innerHTML = "";
+        location.href = "home-page.php";
+    }
+}

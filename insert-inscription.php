@@ -151,7 +151,7 @@ if($existe===true && $mail===true && $date===true && $mdp===true && $prenom===tr
         //$donnee = $req->fetch();
         //$id = $donnee['id_utilisateur'];
         //$_SESSION['id'] = $id;
-        setcookie("pseudo", $_POST['pseudo'], time() + 24*3600); //cookies enregistrés pour 24h
+        setcookie("login", $_POST['pseudo'], time() + 24*3600); //cookies enregistrés pour 24h
     }
     catch(PDOException $e)
     {
