@@ -1,11 +1,10 @@
 <?php
-session_start();    // Si on utilise les sessions, important au début de la page (ou dans un include)
 
 if(isset($_POST['login']) && isset($_POST['mdp']))
 {
-    $exist='ok';
-    $login='';
-    $mdp='';
+    $existe=true;
+    $login=false;   //On définie les variables a false avant le test
+    $mdp=false;
     if (!empty($_POST['login']))
     {
         if (!empty($_POST['mdp']))
@@ -14,20 +13,20 @@ if(isset($_POST['login']) && isset($_POST['mdp']))
                 {
                     include("connexion-base.php");
 
-                    $req = $pdo->prepare("SELECT id_utilisateur, count('email') AS nombre FROM utilisateur WHERE email=? AND mdp=PASSWORD(?)");
+                    $req = $pdo->prepare("SELECT id_utilisateur, count('pseudo') AS nombre FROM utilisateur WHERE pseudo=? AND mdp=PASSWORD(?)");
                     $req->execute(array($_POST["login"], $_POST["mdp"]));
                     $donnee=$req->fetch();
 
                     if ($donnee['nombre'] >= 1)
                     {
-                        $login='ok';
-                        $mdp='ok';
+                        $login=true;
+                        $mdp=true;
                         $id=$donnee['id_utilisateur'];
-                        include("connexion-base.php");
-                        $req = $pdo->prepare("SELECT administrateur FROM utilisateur WHERE id_utilisateur=?");
-                        $req->execute(array($id));
-                        $donnee=$req->fetch();
-                        $admin = $donnee['administrateur'];
+                        //include("connexion-base.php");
+                        //$req = $pdo->prepare("SELECT administrateur FROM utilisateur WHERE id_utilisateur=?");
+                        //$req->execute(array($id));
+                        //$donnee=$req->fetch();
+                        //$admin = $donnee['administrateur'];
                     }
                     else
                     {
@@ -47,27 +46,28 @@ if(isset($_POST['login']) && isset($_POST['mdp']))
     }
     else
     {
-        $login='veuillez remplir le champ Email';
+        $login='veuillez remplir le champ pseudo';
     }
 
 }
 else
 {
-    $sql='Des valeurs ne sont pas bonnes';
+    $existe='Des valeurs ne sont pas envoyées';
 }
 
 
-if($exist=='ok' && $login=='ok' && $mdp=='ok')
+if($existe===true && $login===true && $mdp===true)
 {
-    $sql='ok';
-    $_SESSION['login'] = $_POST['login'];
-    $_SESSION['id'] = $id;
-    $_SESSION['admin'] = $admin;
+    $sql=true;
+    //$_SESSION['login'] = $_POST['login'];
+    //$_SESSION['id'] = $id;
+    //$_SESSION['admin'] = $admin;
+    setcookie("login", $_POST['login'], time() + 24*3600);
 }
 else
 {
     $sql='Des valeurs ne sont pas bonnes';
 }
 
-echo json_encode(array('exist' => $exist, 'sql' => $sql, 'login' => $login, 'mdp' => $mdp));
+echo json_encode(array('existe' => $existe, 'sql' => $sql, 'login' => $login, 'mdp' => $mdp));
 ?>
