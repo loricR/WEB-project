@@ -10,6 +10,7 @@
 
 <?php
 	echo "bonjour ".$_COOKIE["login"];
+
 ?>
 
 <h1> Mon Profil </h1>
