@@ -3,7 +3,7 @@
 if(isset($_POST['login']) && isset($_POST['mdp']))
 {
     $existe=true;
-    $login='';   //On définie les variables vides avant le test
+    $login='';   //On dÃ©finie les variables vides avant le test
     $mdp='';
     if (!empty($_POST['login']))
     {
@@ -36,7 +36,7 @@ if(isset($_POST['login']) && isset($_POST['mdp']))
                 catch(PDOException $e)
                 {
 	                $sql=$e;
-                    $login='Problème serveur, veuillez réessayer plus tard';
+                    $login='Problï¿½me serveur, veuillez rï¿½essayer plus tard';
                 }
         }
         else
@@ -52,7 +52,7 @@ if(isset($_POST['login']) && isset($_POST['mdp']))
 }
 else
 {
-    $existe='Des valeurs ne sont pas envoyées';
+    $existe='Des valeurs ne sont pas envoyï¿½es';
 }
 
 
