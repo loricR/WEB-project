@@ -63,6 +63,7 @@ if($existe===true && $login===true && $mdp===true)
     //$_SESSION['id'] = $id;
     //$_SESSION['admin'] = $admin;
     setcookie("login", $_POST['login'], time() + 24*3600);
+    setcookie("id", $id, time() + 24*3600);
 }
 else
 {

@@ -1,7 +1,10 @@
 window.addEventListener("load", function init() {
-    this.document.getElementById("show-login-btn").addEventListener("click", function () {  //event pour afficher le formulaire de connexion
-        showPopup("popup-login")
-    });
+    if (!document.cookie.split(";").some((item) => item.trim().startsWith("login="))) { //Si le cookie de connexion n'existe pas (donc l'utilisateur est connecté)
+        this.document.getElementById("show-login-btn").addEventListener("click", function () {  //event pour afficher le formulaire de connexion
+            showPopup("popup-login")
+        });
+    }
+    
     this.document.getElementById("show-login-link").addEventListener("click", function () {  //event pour afficher le formulaire de connexion
         showPopup("popup-login")
     });
