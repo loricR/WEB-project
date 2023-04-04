@@ -10,7 +10,7 @@
     <h1>Formulaire d'inscription</h1>
 
     <form id="form-inscription" method="POST" action="insert-inscription.php">
-        <label for="prenom">Prénom : 
+        <label for="prenom">Prï¿½nom : 
             <input id="input-prenom" name="prenom" type="text" required />
         </label>
         <label for="nom">Nom : 
