@@ -201,6 +201,6 @@ function afficherMessageConnexion(res) {
     if (allValueTrue) { //Si tout est bon
         alert('Connexion OK');
         document.getElementById("retour-connexion").innerHTML = "";
-        location.href = "home-page.php";
+        location.href = "blog.php";
     }
 }

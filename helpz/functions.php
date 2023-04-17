@@ -2,11 +2,11 @@
 // Function to display a page with 10 posts for a blog
 //--------------------------------------------------------------------------------
 function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
-    global $conn;
-
-    $query = "SELECT * FROM `post` WHERE `id_utilisateur` = ".$blogID." ORDER BY `date` DESC LIMIT 10";
-    $result = $conn->query($query);
-    if( mysqli_num_rows($result) != 0 ){
+    include("connexion-base.php");
+    $req = $pdo->prepare("SELECT * FROM `post` WHERE `id_utilisateur` =? ORDER BY date_post DESC LIMIT 10");
+    $req->execute(array($blogID));
+    $result = $req->fetchAll();
+    if( $req->rowCount() != 0 ){
 
         if ($isMyBlog){
         ?>
@@ -19,9 +19,9 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
         <?php    
         }
 
-        while( $row = $result->fetch_assoc() ){
+        foreach( $result as $row ){
 
-            $timestamp = strtotime($row["date_lastedit"]);
+            $timestamp = strtotime($row["date_post"]);
             echo '
             <div class="blogPost">
                 <div class="postTitle">';
@@ -31,7 +31,7 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
                 echo '
                 <div class="postModify">
                     <form action="editPost.php" method="GET">
-                        <input type="hidden" name="postID" value="'.$row["ID_post"].'">
+                        <input type="hidden" name="postID" value="'.$row["id_post"].'">
                         <button type="submit">Modifier/effacer</button>
                     </form>
                 </div>';
@@ -43,7 +43,7 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
             }
 
             echo '
-                <h3>•'.$row["title"].'</h3>
+                <h3>•'.$row["titre"].'</h3>
                 <p>dernière modification le '.date("d/m/y à h:i:s", $timestamp ).'
             </div>
             ';
@@ -51,7 +51,7 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
            
 
             echo'
-            <p class="postContent">'.$row["content"].'</p>
+            <p class="postContent">'.$row["contenu"].'</p>
             </div>
             ';
         }
@@ -113,6 +113,16 @@ function CheckLogin(){
     }
 
     return array($loginSuccessful, $loginAttempted, $error, $userID);
+}
+
+//Function to clean up an user input for safety reasons
+//--------------------------------------------------------------------------------
+function SecurizeString_ForSQL($string) {
+    $string = trim($string);
+    $string = stripcslashes($string);
+    $string = addslashes($string);
+    $string = htmlspecialchars($string);
+    return $string;
 }
 
 // Function to get current URL, without file name

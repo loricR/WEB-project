@@ -9,9 +9,6 @@
   </li>
   <li><a href="#">Rechercher</a>
   </li>
-  <div id="ID_myblog">
-    <a href="./blog.php?userID=<?php echo $_COOKIE["id"]; ?>"></a>
-  </div>
 </ul>
 
 </div>
