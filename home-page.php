@@ -6,6 +6,5 @@ include (__ROOT__."/PageParts/menu-bar.php");
 include (__ROOT__."/blog.php");
 ?>
 
-
 </body>
 </html>

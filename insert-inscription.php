@@ -143,8 +143,8 @@ if($existe===true && $mail===true && $date===true && $mdp===true && $prenom===tr
     {
         include("connexion-base.php");
 
-        $req = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, pseudo, mdp) VALUES (?,?,?,?,PASSWORD(?))");
-        $req->execute(array($_POST["prenom"],$_POST["nom"],$_POST["email"],$_POST["pseudo"],$_POST["mdp"]));
+        //$req = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, pseudo, mdp) VALUES (?,?,?,?,PASSWORD(?))");
+        //$req->execute(array($_POST["prenom"],$_POST["nom"],$_POST["email"],$_POST["pseudo"],$_POST["mdp"]));
 
         $req = $pdo->prepare("SELECT id_utilisateur FROM utilisateur WHERE pseudo=?");
         $req->execute(array($_POST['pseudo']));
