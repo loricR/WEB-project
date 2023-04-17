@@ -36,7 +36,7 @@ elseif ( isset($_GET["postID"]) ){
     $query = 'SELECT * FROM `post` WHERE `ID_post` ='.$_GET["postID"];
     $req = $pdo->prepare("SELECT * FROM `post` WHERE `ID_post` =?");
     $req->execute(array($_GET["postID"]));
-    $data = $req->fetchAll();
+    $data = $req->fetch();
         
     if ( $req->rowCount() > 0 ){ 
     ?>

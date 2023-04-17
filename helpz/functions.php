@@ -133,5 +133,4 @@ function GetUrl() {
     $url .= dirname($_SERVER["REQUEST_URI"]);
     return $url;
 }
-
 ?>
