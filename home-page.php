@@ -51,7 +51,7 @@
 
             <form id="form-inscription" method="POST" action="insert-inscription.php">
                 <div class="form-element">
-                    <label for="prenom">Pr?nom : 
+                    <label for="prenom">Prénom : 
                         <input id="input-prenom" name="prenom" type="text" required />
                     </label>
                 </div>
@@ -90,7 +90,7 @@
                 </div>
             </form>
             <div id="retour-inscription"><ul></ul></div>
-            <a id="show-login-link" href="#">D�j� un compte?</a>
+            <a id="show-login-link" href="#">Déjà un compte?</a>
         </div>
     </div>
 </body>
