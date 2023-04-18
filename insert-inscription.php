@@ -1,5 +1,8 @@
 <?php
-//session_start(); // Si on utilise les sessions, important au début de la page (ou dans un include)
+if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déjà
+{
+	session_start();
+}
 //$existe = 'a';
 //$mail = 'a';
 //$nom = 'a';
@@ -143,16 +146,17 @@ if($existe===true && $mail===true && $date===true && $mdp===true && $prenom===tr
     {
         include("connexion-base.php");
 
-        //$req = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, pseudo, mdp) VALUES (?,?,?,?,PASSWORD(?))");
-        //$req->execute(array($_POST["prenom"],$_POST["nom"],$_POST["email"],$_POST["pseudo"],$_POST["mdp"]));
+        $req = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, pseudo, mdp) VALUES (?,?,?,?,PASSWORD(?))");
+        $req->execute(array($_POST["prenom"],$_POST["nom"],$_POST["email"],$_POST["pseudo"],$_POST["mdp"]));
 
         $req = $pdo->prepare("SELECT id_utilisateur FROM utilisateur WHERE pseudo=?");
         $req->execute(array($_POST['pseudo']));
         $donnee = $req->fetch();
         $id = $donnee['id_utilisateur'];
-        //$_SESSION['id'] = $id;
-        setcookie("login", $_POST["pseudo"], time() + 24*3600); //cookies enregistrés pour 24h
-        setcookie("id", $id, time() + 24*3600); //cookies enregistrés pour 24h"])
+        $_SESSION['id'] = $id;
+        $_SESSION['login'] = $_POST['pseudo'];
+        setcookie("login", $_SESSION["login"], time() + 24*3600); //cookies enregistrés pour 24h
+        setcookie("id", $_SESSION['id'], time() + 24*3600); //cookies enregistrés pour 24h"])
     }
     catch(PDOException $e)
     {

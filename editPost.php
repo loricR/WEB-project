@@ -19,7 +19,7 @@ if ( isset($_POST["newPost"]) && $_POST["newPost"] == 1 ){
         </div>
         <div>
             <label for="contenu">Message :</label>
-            <textarea name="contenu">Tapez votre texte ici...</textarea>
+            <textarea name="contenu" placeholder="Tapez votre texte ici..."></textarea>
         </div>
         <div class="formbutton">
             <button type="submit">Ajouter ce post à mon blog</button>

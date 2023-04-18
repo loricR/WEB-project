@@ -23,7 +23,7 @@ CREATE TABLE post (
   id_utilisateur int NOT NULL,
   titre varchar(100) NOT NULL,
   contenu varchar(10000) NOT NULL,
-  date_post date NOT NULL,
+  date_post timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   visible boolean NOT NULL,
 
   FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id_utilisateur)

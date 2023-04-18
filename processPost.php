@@ -1,46 +1,37 @@
 <?php
+if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déjà
+{
+	session_start();
+}
 
 include("connexion-base.php");
 include ("initialize.php");
 include ("helpz/functions.php");
 
 $loginStatus = CheckLogin();
+$reqSuccess = false;
 
-// Die Formulare, die den Benutzer hierher bringen, haben versteckte Felder, um zu sagen, ob wir hier sind, um hinzuzufügen oder zu bearbeiten...
-if( isset($_POST["action"]) ){
-
-    if ( $_POST["action"] == "edit"){
-
-        if ( isset($_POST["titre"]) && isset($_POST["contenu"])){
-            $query = "UPDATE `post` SET 
-                    `titre` = '".SecurizeString_ForSQL($_POST["titre"])."',  
-                    `contenu` = '".SecurizeString_ForSQL($_POST["contenu"])."' 
-                    WHERE `id_post` = ".$_POST["postID"];
+if( isset($_POST["action"])){
+    if ($_POST["action"] == "edit"){
+        if (isset($_POST["titre"]) && isset($_POST["contenu"])){
+            $req = $pdo->prepare("UPDATE post SET titre = ?, contenu = ?, date_post = CURRENT_TIMESTAMP WHERE id_post = ?");
+            $reqSuccess = $req->execute(array($_POST["titre"],$_POST["contenu"], $_POST["postID"])); //reqSuccess true si requete à fonctionnée
         }
     }
-    elseif ( $_POST["action"] == "new"){
-
-        if ( isset($_POST["titre"]) && isset($_POST["contenu"])){
-            $query = "INSERT INTO `post` (titre, contenu, id_utilisateur) VALUES            
-                    ('".SecurizeString_ForSQL($_POST["titre"])."', '".SecurizeString_ForSQL($_POST["contenu"])."', '".$_COOKIE["id"]."')";
-           
+    elseif ($_POST["action"] == "new"){
+        if (isset($_POST["titre"]) && isset($_POST["contenu"])){
             $req = $pdo->prepare("INSERT INTO `post` (titre, contenu, id_utilisateur) VALUES (?,?,?)");
-            $req->execute(array($_POST["titre"],$_POST["contenu"],$_COOKIE["id"]));
-            
+            $reqSuccess = $req->execute(array($_POST["titre"],$_POST["contenu"],$_SESSION["id"]));   //reqSuccess true si requete à fonctionnée           
         }
     }
     elseif ($_POST["action"] == "delete"){
-        $query = "DELETE FROM `post` WHERE `id_post` = ".$_POST["postID"];
+        $req = $pdo->prepare("DELETE FROM `post` WHERE `id_post` = ?");
+        $reqSuccess = $req->execute(array($_POST["postID"]));   //reqSuccess true si requete à fonctionnée
     }
 
-    if (isset($query)){
-        echo $query;
-        $result = $pdo->query($query);
-
-        $redirect = "Location:".GetURL()."/blog.php?userID=".$_COOKIE['id'];
-        //echo "Post Erfolgreich - Weiterleitung zu blog.php".$redirect;
+    if ($reqSuccess){
+        $redirect = "Location:".GetURL()."/blog.php?userID=".$_SESSION['id'];
         header($redirect);
     }
 }
-
 ?>

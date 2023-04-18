@@ -1,15 +1,22 @@
+<?php
+if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déjà
+{
+	session_start();
+}
+?>
+
 <body>
 <div>
 <ul class="dropdownmenu">
-  <li><a href="index.html">Accueil</a>
+  <li><a href="index.php">Accueil</a>
   </li>
   <li><a href="#">Mes posts</a>
   </li>
   <li> 
   <?php
-    if(isset($_COOKIE["login"]))
+    if(isset($_SESSION["id"]))
 	{
-	    echo '<a href=./blog.php?userID=' . $_COOKIE["id"] . '>Mon profil</a>';	
+	    echo '<a href=./logout.php>Déconnexion</a>';	
 	}
     else
 	{
@@ -22,9 +29,9 @@
   </li>
   <div id="ID_myblog">
 	<?php 
-		if(isset($_COOKIE["id"]))
+		if(isset($_SESSION["id"]))
 		{
-			echo '<a href="./blog.php?userID=<?php echo $_COOKIE["id"]; ?>"></a>';
+			echo '<a href=./blog.php?userID=' . $_SESSION["id"] . '>Mon Blog</a>';
 		}
 		else
 		{
