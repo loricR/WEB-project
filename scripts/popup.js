@@ -1,5 +1,5 @@
 window.addEventListener("load", function init() {
-    if (!document.cookie.split(";").some((item) => item.trim().startsWith("login="))) { //Si le cookie de connexion n'existe pas (donc l'utilisateur est connecté)
+    if (!document.cookie.split(";").some((item) => item.trim().startsWith("login="))) { //Si le cookie de connexion n'existe pas (donc l'utilisateur n'est pas connecté)
         this.document.getElementById("show-login-btn").addEventListener("click", function () {  //event pour afficher le formulaire de connexion
             showPopup("popup-login")
         });
