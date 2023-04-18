@@ -69,3 +69,9 @@ body {
     padding: 1px 2px;
   }
   
+  #retour-connexion, #retour-inscription {
+      list-style-type: none;
+      color: red;
+      margin-top: 20px;
+      margin-bottom: 20px;
+  }

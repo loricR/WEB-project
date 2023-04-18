@@ -1,4 +1,9 @@
 <?php
+if(session_status() != PHP_SESSION_ACTIVE)  //On vérifie si la session existe déjà
+{
+	session_start();
+}
+
 include ("initialize.php");
 include("connexion-base.php");
 include ("helpz/functions.php");
@@ -12,9 +17,9 @@ $isMyOwnBlog = false;
 
 if ( isset($_GET["userID"]) ){
 
-    if ( isset($_GET["userID"]) && $_GET["userID"] == $_COOKIE["id"] ){
+    if ( isset($_GET["userID"]) && $_GET["userID"] == $_SESSION["id"] ){
         $isMyOwnBlog = true;
-        $blogOwnerName = $_COOKIE["login"];
+        $blogOwnerName = $_SESSION["login"];
     }
     else {
         $req = $pdo->prepare("SELECT `pseudo` FROM `utilisateur` WHERE `id_utilisateur` =?");

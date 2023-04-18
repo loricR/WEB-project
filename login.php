@@ -1,4 +1,8 @@
 <?php
+if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déjà
+{
+	session_start();
+}
 
 if(isset($_POST['login']) && isset($_POST['mdp']))
 {
@@ -67,9 +71,10 @@ if($existe===true && $login===true && $mdp===true)
     $id = $donnee['id_utilisateur'];
     //Afficher l'id : 
     //echo $id;
-    //$_SESSION['id'] = $id;
-    setcookie("login", $_POST["login"], time() + 24*3600); //cookies enregistrés pour 24h
-    setcookie("id", $id, time() + 24*3600); //cookies enregistrés pour 24h"])
+    $_SESSION['id'] = $id;
+    $_SESSION['login'] = $_POST['login'];
+    setcookie("login", $_SESSION["login"], time() + 24*3600); //cookies enregistrés pour 24h
+    setcookie("id", $_SESSION['id'], time() + 24*3600); //cookies enregistrés pour 24h"])
 }
 else
 {
