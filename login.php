@@ -59,11 +59,17 @@ else
 if($existe===true && $login===true && $mdp===true)
 {
     $sql=true;
-    //$_SESSION['login'] = $_POST['login'];
+    include("initialize.php");
+    include(__ROOT__."/connexion-base.php");
+	$req = $pdo->prepare("SELECT id_utilisateur FROM utilisateur WHERE pseudo=?");
+    $req->execute(array($_POST['login']));
+    $donnee = $req->fetch();
+    $id = $donnee['id_utilisateur'];
+    //Afficher l'id : 
+    //echo $id;
     //$_SESSION['id'] = $id;
-    //$_SESSION['admin'] = $admin;
-    setcookie("login", $_POST['login'], time() + 24*3600);
-    setcookie("id", $id, time() + 24*3600);
+    setcookie("login", $_POST["login"], time() + 24*3600); //cookies enregistrés pour 24h
+    setcookie("id", $id, time() + 24*3600); //cookies enregistrés pour 24h"])
 }
 else
 {

@@ -90,7 +90,7 @@
                 </div>
             </form>
             <div id="retour-inscription"><ul></ul></div>
-            <a id="show-login-link" href="#">Déjà un compte?</a>
+            <a id="show-login-link" href="#">Dï¿½jï¿½ un compte?</a>
         </div>
     </div>
 </body>
