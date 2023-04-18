@@ -133,4 +133,22 @@ function GetUrl() {
     $url .= dirname($_SERVER["REQUEST_URI"]);
     return $url;
 }
+
+//Fonction pour récupérer le lien de l'image avatar de l'utilisateur
+//-------------------------------------------------------------------------------
+function getAvatarLink($id) {
+    try
+    {
+        include("connexion-base.php");
+        $req = $pdo->prepare("SELECT avatar FROM utilisateur WHERE id_utilisateur=?");
+        $req->execute(array($id));
+        $donnee = $req->fetch();
+        return $donnee["avatar"];
+    }
+    catch(PDOException $e)
+    {
+	    $sql=$e;
+    }
+    return null;
+}
 ?>

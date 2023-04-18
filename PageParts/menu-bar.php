@@ -3,6 +3,7 @@ if(session_status() != PHP_SESSION_ACTIVE)	//On vÃ©rifie si la session existe dÃ
 {
 	session_start();
 }
+include (__ROOT__."/helpz/functions.php");
 ?>
 
 <body>
@@ -25,20 +26,22 @@ if(session_status() != PHP_SESSION_ACTIVE)	//On vÃ©rifie si la session existe dÃ
   ?>
       
   </li>
-  <li><a href="#">Rechercher</a>
+  <li><a href="#">Rechercher</a></li>
+  <li>
+	  <div id="ID_myblog">
+		<?php 
+			if(isset($_SESSION["id"]))
+			{
+				echo '<img src=' . getAvatarLink($_SESSION["id"]) . ' alt=avatar>';
+				echo '<a href=./blog.php?userID=' . $_SESSION["id"] . '>Mon Blog</a>';
+			}
+			else
+			{
+				echo '<a href="#"></a>';
+			}
+		?>
+	  </div>
   </li>
-  <div id="ID_myblog">
-	<?php 
-		if(isset($_SESSION["id"]))
-		{
-			echo '<a href=./blog.php?userID=' . $_SESSION["id"] . '>Mon Blog</a>';
-		}
-		else
-		{
-			echo '<a href="#"></a>';
-		}
-	?>
-  </div>
 </ul>
 
 </div>

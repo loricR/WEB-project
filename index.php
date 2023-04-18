@@ -49,7 +49,7 @@
         <div class="form">
             <h2>Formulaire d'inscription</h2>
 
-            <form id="form-inscription" method="POST" action="insert-inscription.php">
+            <form id="form-inscription" method="POST" action="insert-inscription.php" encrypt="multipart/form-data">
                 <div class="form-element">
                     <label for="prenom">Prénom : 
                         <input id="input-prenom" name="prenom" type="text" required />
@@ -58,6 +58,11 @@
                 <div class="form-element">
                     <label for="nom">Nom : 
                         <input id="input-nom" name="nom" type="text" required />
+                    </label>
+                </div>
+                <div class="form-element">
+                    <label for="avatar">Avatar : 
+                        <input id="input-avatar" name="avatar" type="file" accept="image/*"/>
                     </label>
                 </div>
                 <div class="form-element">

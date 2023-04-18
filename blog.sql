@@ -12,7 +12,7 @@ CREATE TABLE utilisateur (
   email varchar(30) NOT NULL,
   pseudo varchar(20) NOT NULL,
   mdp varchar(50) NOT NULL,
-  photo blob,
+  avatar varchar(50) DEFAULT "images/avatar/default.png",
   createur boolean NOT NULL,
   administrateur boolean NOT NULL,
   UNIQUE (pseudo)

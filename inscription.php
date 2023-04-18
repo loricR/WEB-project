@@ -10,11 +10,14 @@
     <h1>Formulaire d'inscription</h1>
 
     <form id="form-inscription" method="POST" action="insert-inscription.php">
-        <label for="prenom">Pr�nom : 
+        <label for="prenom">Prénom : 
             <input id="input-prenom" name="prenom" type="text" required />
         </label>
         <label for="nom">Nom : 
             <input id="input-nom" name="nom" type="text" required />
+        </label>
+        <label for="avatar">Avatar : 
+            <input id="input-avatar" name="avatar" type="file" />
         </label>
         <label for="email">Email : 
             <input id="input-inscription-email" name="email" type="email" required />
