@@ -10,7 +10,7 @@ include_once(__ROOT__."/PageParts/menu-bar.php");
 if ( isset($_POST["newPost"]) && $_POST["newPost"] == 1 ){
 ?>
 
-    <form action="./processPost.php" method="POST">
+    <form id="form-newPost" action="./processPost.php" method="POST" encrypt="multipart/form-data">
         <div class="formbutton">Création d'un nouveau post</div>
 		<div>
             <input type="hidden" name="action" value="new">
@@ -18,11 +18,15 @@ if ( isset($_POST["newPost"]) && $_POST["newPost"] == 1 ){
             <input autofocus type="text" name="titre">
         </div>
         <div>
+            <label for="imgPresentation">Image de présentation :</label>
+			<input id="input-img" name="imgPresentation" type="file" accept="image/*" />
+        </div>
+        <div>
             <label for="contenu">Message :</label>
             <textarea name="contenu" placeholder="Tapez votre texte ici..."></textarea>
         </div>
         <div class="formbutton">
-            <button type="submit">Ajouter ce post à mon blog</button>
+            <input type="submit" value="Ajouter ce post à mon blog" />
         </div>
     </form>
 
@@ -39,9 +43,9 @@ elseif ( isset($_GET["postID"]) ){
     $data = $req->fetch();
         
     if ( $req->rowCount() > 0 ){ 
-    ?>
+?>
 
-        <form action="./processPost.php" method="POST">
+        <form id="form-editPost" action="./processPost.php" method="POST" encrypt="multipart/form-data">
             <div class="formbutton">Modification d'un post passé</div>
             <div>
                 <input type="hidden" name="action" value="edit">
@@ -54,17 +58,17 @@ elseif ( isset($_GET["postID"]) ){
                 <textarea name="contenu"><?php echo $data["contenu"];?></textarea>
             </div>
             <div class="formbutton">
-                <button type="submit">Modifier le post</button>
+                <input type="submit" value="Modifier le post" />
             </div>
         </form>
-        <form action="./processPost.php" method="POST">
+        <form id="form-supprPost" action="./processPost.php" method="POST">
             <div class="formbutton">Cliquez le bouton ci-dessous pour effacer le post</div>
             <div>
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="postID" value="<?php echo $data["id_post"];?>">
             </div>
             <div class="formbutton">
-                <button type="submit">Supprimer le post</button>
+                <input type="submit" value="Supprimer le post" />
             </div>
         </form>
 
