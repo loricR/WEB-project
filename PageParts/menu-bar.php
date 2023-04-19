@@ -3,45 +3,37 @@ if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe d�
 {
 	session_start();
 }
-include (__ROOT__."/helpz/functions.php");
+include_once(__ROOT__."/helpz/functions.php");
 ?>
 
 <body>
 <div>
+<nav>
 <ul class="dropdownmenu">
   <li><a href="index.php">Accueil</a>
   </li>
-  <li><a href="#">Mes posts</a>
-  </li>
-  <li> 
-  <?php
-    if(isset($_SESSION["id"]))
-	{
-	    echo '<a href=./logout.php>Déconnexion</a>';	
-	}
-    else
-	{
-		echo '<a id="show-login-btn" href="#">Connexion</a>';
-	}
-  ?>
-      
+  <li><a href="#">Liste des blogs</a>
   </li>
   <li><a href="#">Rechercher</a></li>
-  <li>
-	  <div id="ID_myblog">
-		<?php 
-			if(isset($_SESSION["id"]))
-			{
-				echo '<img src=' . getAvatarLink($_SESSION["id"]) . ' alt=avatar>';
-				echo '<a href=./blog.php?userID=' . $_SESSION["id"] . '>Mon Blog</a>';
-			}
-			else
-			{
-				echo '<a href="#"></a>';
-			}
-		?>
-	  </div>
-  </li>
+	<?php 
+		if(isset($_SESSION["id"]))
+		{
+			echo '<li id=ID_myblog class=menu-deroulant><a href=./blog.php?userID=' . $_SESSION["id"] . '><img src=' . getAvatarLink($_SESSION["id"]) . ' alt=avatar> ' . $_SESSION["login"] . '</a>';
+			echo '<ul class=sous-menu>';
+			echo '<li><a href=./blog.php?userID=' . $_SESSION["id"] . '>Mon Blog</a></li>';
+			echo '<li><a href=#>Mon Profil</a></li>';
+			echo '<li><a href=./logout.php>Déconnexion</a></li>';
+			echo '<ul>';
+			echo '</li>';
+		}
+		else
+		{
+			echo '<li>';
+			echo '<a id="show-login-btn" href="#">Connexion</a>';
+			echo '</li>';
+		}
+	?>
 </ul>
+</nav>
 
 </div>

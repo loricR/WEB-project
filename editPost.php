@@ -1,9 +1,9 @@
 <?php
 include("connexion-base.php");
-include ("initialize.php");
-include (__ROOT__."/helpz/functions.php");
-include (__ROOT__."/PageParts/header.php");
-include (__ROOT__."/PageParts/menu-bar.php");
+include_once("initialize.php");
+include_once(__ROOT__."/helpz/functions.php");
+include_once(__ROOT__."/PageParts/header.php");
+include_once(__ROOT__."/PageParts/menu-bar.php");
 
 
 

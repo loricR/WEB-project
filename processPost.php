@@ -5,8 +5,8 @@ if(session_status() != PHP_SESSION_ACTIVE)	//On v√©rifie si la session existe d√
 }
 
 include("connexion-base.php");
-include ("initialize.php");
-include ("helpz/functions.php");
+include_once("initialize.php");
+include_once("helpz/functions.php");
 
 $loginStatus = CheckLogin();
 $reqSuccess = false;

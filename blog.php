@@ -4,11 +4,11 @@ if(session_status() != PHP_SESSION_ACTIVE)  //On vérifie si la session existe d
 	session_start();
 }
 
-include ("initialize.php");
+include_once("initialize.php");
 include("connexion-base.php");
-include ("helpz/functions.php");
-include (__ROOT__."/PageParts/header.php");
-include (__ROOT__."/PageParts/menu-bar.php");
+include_once("helpz/functions.php");
+include_once(__ROOT__."/PageParts/header.php");
+include_once(__ROOT__."/PageParts/menu-bar.php");
 
 //$login = CheckLogin();
 //Try to get user for ID used as GET parameter
