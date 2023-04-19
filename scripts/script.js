@@ -2,13 +2,13 @@ window.addEventListener("load", function init() {
     document.getElementById("form-inscription").addEventListener("submit", function (e) {
         e.preventDefault();
         var data = new FormData(this);
+        verifyImgSize(1048576, "input-avatar");  //On vérifie que la taille de l'avatar n'est pas trop grande (ici 1Mo max)
         requete(data);
         return false;
     })
 });
 
-function requete(data) {
-    verifyImgSize();    //On vérifie que la taille de l'avatar n'est pas trop grande
+function requete(data) {  
     var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
@@ -206,15 +206,65 @@ function afficherMessageConnexion(res) {
     }
 }
 
-function verifyImgSize() {
-    var maxSizeOctet = 1048576; //Correspond à 1Mo
-    var avatar = document.getElementById("input-avatar");
-    if (avatar.files && avatar.files.length == 1 && avatar.files[0].size > maxSizeOctet) {    //Si l'avatar a été upload et que sa taille est supérieure à celle voulue
-        alert("Le fichier d'avatar ne doit pas dépasser " + parseInt(maxSizeOctet / 1024 / 1024) + "Mo");
-        mettreRouge("input-avatar");
-        return false;
+function verifyImgSize(maxSizeOctet, inputName) {
+    var img = document.getElementById(inputName);
+    if (img.value != "") {
+        if (img.files && img.files.length == 1 && img.files[0].size > maxSizeOctet) {    //Si l'image a été upload et que sa taille est supérieure à celle voulue
+            alert("Le fichier ne doit pas dépasser " + parseInt(maxSizeOctet / 1024 / 1024) + "Mo");
+            mettreRouge(inputName);
+            return false;
+        }
+        supprimerRouge(inputName);
     }
-    supprimerRouge("input-avatar");
-
+    else {
+        alert("Pas d'image de présentation envoyé");
+    }
     return true;    //Vrai aussi quand il n'y a pas de fichier
+}
+
+window.addEventListener("load", function init() {
+    document.getElementById("form-newPost").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var data = new FormData(this);
+        envoiPostNew(data);
+        return false;
+    });
+})
+
+window.addEventListener("load", function init() {
+    document.getElementById("form-editPost").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var data = new FormData(this);
+        envoiPost(data);
+        return false;
+    });
+    document.getElementById("form-supprPost").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var data = new FormData(this);
+        envoiPost(data);
+        return false;
+    });
+})
+
+function envoiPostNew(data) {
+    if (verifyImgSize(1048576, "input-img")) {    //On vérifie que la taille de l'avatar n'est pas trop grande (ici 1Mo max)
+        envoiPost(data);
+    }
+}
+
+function envoiPost(data) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = this.response;
+            location.href = res.redirect;
+        }
+        if (this.readyState == 4 && this.status == 404) {
+            alert("Erreur 404");
+        }
+    };
+
+    xhr.open("POST", "processPost.php", true);
+    xhr.responseType = "json";
+    xhr.send(data);
 }

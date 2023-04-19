@@ -12,8 +12,7 @@ CREATE TABLE utilisateur (
   email varchar(30) NOT NULL,
   pseudo varchar(20) NOT NULL,
   mdp varchar(50) NOT NULL,
-  avatar varchar(50) DEFAULT "images/avatar/default.png",
-  createur boolean NOT NULL,
+  avatar varchar(100) DEFAULT "images/avatar/default.png",
   administrateur boolean NOT NULL,
   UNIQUE (pseudo)
 );
@@ -23,7 +22,8 @@ CREATE TABLE post (
   id_utilisateur int NOT NULL,
   titre varchar(100) NOT NULL,
   contenu varchar(10000) NOT NULL,
-  date_post timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  imgPresentation varchar(100) DEFAULT "images/post/default.png",
+  date_post timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   visible boolean NOT NULL,
 
   FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id_utilisateur)

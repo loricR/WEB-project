@@ -44,6 +44,7 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
 
             echo '
                 <h3>•'.$row["titre"].'</h3>
+                <img src="'.$row["imgPresentation"].'" alt"image jeu">
                 <p>dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'
             </div>
             ';
