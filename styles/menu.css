@@ -1,51 +1,57 @@
-/* Menu Principal */
-.dropdownmenu {
-    background-color: #1b1b32;
-    display:flex;
+:root {
+    --taille-element: 25%;
 }
 
-/* Sous Menu */
-.dropdownmenu ul {
-    display: none;
-    z-index: 1000;
+li {
+    float: left;
+    width: var(--taille-element); /*Car il y a 5 elements*/
 }
 
-.dropdownmenu, 
-.dropdownmenu ul {  
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-    top:0;
-}
-
-.dropdownmenu a {
+li a {
     display: block;
-    width: 100px;
-    height: 35px;
-    line-height: 35px;
-    color: #fff;
-    background-color: #3b3b4f;
-    text-decoration: none;
-    padding:3px 150px;
+    color: white;
     text-align: center;
+    padding: 30px 16px;
+    text-decoration: none;
+    background-color: #3b3b4f;
 }
 
-.dropdownmenu li{
-   position: relative;
-}
-
-.dropdownmenu li:hover ul {
-    display: block;
-    position: absolute;
-    top : 41px;
-    left: 0px;
-    z-index: 100;
-}
-
-.dropdownmenu a:hover {
+li a:hover {
     background-color: #3b6969;
 }
 
-.overlay{
-    margin-left:auto;
+.dropdownmenu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #1b1b32;
+}
+
+#ID_myblog a img {
+    width: 15%;
+    height: auto;
+    vertical-align: middle;
+}
+
+#ID_myblog {
+    padding: 0;
+}
+
+.sous-menu {
+    display: none;
+    width: 100%;
+    z-index: 1000;
+    list-style-type: none;
+    padding-left: 0;
+    position: absolute;
+}
+
+nav > ul li:hover .sous-menu {
+    display: block;
+}
+
+.sous-menu li {
+    float: none;
+    width: var(--taille-element);
 }

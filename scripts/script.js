@@ -8,6 +8,7 @@ window.addEventListener("load", function init() {
 });
 
 function requete(data) {
+    verifyImgSize();    //On vérifie que la taille de l'avatar n'est pas trop grande
     var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
@@ -203,4 +204,17 @@ function afficherMessageConnexion(res) {
         document.getElementById("retour-connexion").innerHTML = "";
         location.href = "index.php";
     }
+}
+
+function verifyImgSize() {
+    var maxSizeOctet = 1048576; //Correspond à 1Mo
+    var avatar = document.getElementById("input-avatar");
+    if (avatar.files && avatar.files.length == 1 && avatar.files[0].size > maxSizeOctet) {    //Si l'avatar a été upload et que sa taille est supérieure à celle voulue
+        alert("Le fichier d'avatar ne doit pas dépasser " + parseInt(maxSizeOctet / 1024 / 1024) + "Mo");
+        mettreRouge("input-avatar");
+        return false;
+    }
+    supprimerRouge("input-avatar");
+
+    return true;    //Vrai aussi quand il n'y a pas de fichier
 }

@@ -4,7 +4,7 @@ if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déj
 	session_start();
 }
 
-include ("helpz/functions.php");
+include_once("helpz/functions.php");
 
 if(isset($_SESSION["id"]))
 {

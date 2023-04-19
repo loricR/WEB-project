@@ -157,6 +157,18 @@ if($existe===true && $mail===true && $date===true && $mdp===true && $prenom===tr
         $_SESSION['login'] = $_POST['pseudo'];
         setcookie("login", $_SESSION["login"], time() + 24*3600); //cookies enregistrés pour 24h
         setcookie("id", $_SESSION['id'], time() + 24*3600); //cookies enregistrés pour 24h"])
+
+        if(isset($_FILES["avatar"]["name"]) && !empty($_FILES["avatar"]["name"]))
+        {
+            $avatarDir = "images/avatar";
+            $infoFile = pathinfo($_FILES["avatar"]["name"]);
+            $extension = $infoFile["extension"];
+            $lienAvatar = $avatarDir . "/" . $id . "." . $extension;    //Le nom de l'image est l'id de l'utilisateur pour être sûr qu'il n'y ai pas 2 fois le même nom de fichier
+            move_uploaded_file($_FILES["avatar"]["tmp_name"], $lienAvatar);    //On met l'avatar de l'utilisateur dans le dossier avatar avec comme nom l'id
+
+            $req = $pdo->prepare("UPDATE utilisateur SET avatar = ? WHERE id_utilisateur = ?"); //On upload le lien de l'avatar dans la bdd
+            $req->execute(array($lienAvatar, $id));
+        }
     }
     catch(PDOException $e)
     {
