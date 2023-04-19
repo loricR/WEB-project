@@ -1,10 +1,10 @@
 :root {
-    --taille-element: 25%;
+    --taille-element: 25%; /*Car il y a 4 elements*/
 }
 
 li {
     float: left;
-    width: var(--taille-element); /*Car il y a 5 elements*/
+    width: var(--taille-element); 
 }
 
 li a {
@@ -32,6 +32,7 @@ li a:hover {
     width: 15%;
     height: auto;
     vertical-align: middle;
+    margin: -33px 0;
 }
 
 #ID_myblog {
@@ -40,7 +41,7 @@ li a:hover {
 
 .sous-menu {
     display: none;
-    width: 100%;
+    width: var(--taille-element);
     z-index: 1000;
     list-style-type: none;
     padding-left: 0;
@@ -53,5 +54,5 @@ nav > ul li:hover .sous-menu {
 
 .sous-menu li {
     float: none;
-    width: var(--taille-element);
+    width: 100%;
 }
