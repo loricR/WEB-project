@@ -12,7 +12,7 @@ include_once(__ROOT__."/helpz/functions.php");
 <ul class="dropdownmenu">
   <li><a href="index.php">Accueil</a>
   </li>
-  <li><a href="#">Liste des blogs</a>
+  <li><a href="liste-blog.php">Liste des blogs</a>
   </li>
   <li><a href="#">Rechercher</a></li>
 	<?php 

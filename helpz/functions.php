@@ -23,37 +23,37 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
 
             $timestamp = strtotime($row["date_post"]);
             echo '
-            <div class="blogPost">
-                <div class="postTitle">';
+            <section class="articles">
+                <div class="article">
+                    <div class="left">
+                        <img src="'.$row["imgPresentation"].'" alt"image jeu">
+                    </div>
 
-            if ($isMyBlog){
+                    <div class="right">
+                        <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'  
+                        <h3 class = "title">•'.$row["titre"].'</h3>
+                        <p class="contenu">'.$row["contenu"].'</p>   
 
-                echo '
-                <div class="postModify">
-                    <form action="editPost.php" method="GET">
-                        <input type="hidden" name="postID" value="'.$row["id_post"].'">
-                        <button type="submit">Modifier/effacer</button>
-                    </form>
-                </div>';
-            }
-            else {
-                echo '
-                <div class="postAuthor">par '.$ownerName.'</div>
-                ';
-            }
+                        ';
+                        if ($isMyBlog){
 
-            echo '
-                <h3>•'.$row["titre"].'</h3>
-                <img src="'.$row["imgPresentation"].'" alt"image jeu">
-                <p>dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'
-            </div>
-            ';
-
-           
-
-            echo'
-            <p class="postContent">'.$row["contenu"].'</p>
-            </div>
+                            echo '
+                            <div class="modifier">
+                                <form action="editPost.php" method="GET">
+                                    <input type="hidden" name="postID" value="'.$row["id_post"].'">
+                                    <button type="submit">Modifier/effacer</button>
+                                </form>
+                            </div>';
+                        }
+                        else {
+                            echo '  
+                            <div class="autheur">par '.$ownerName.'</div>
+                            ';
+                        }
+                        echo '
+                    </div>
+                </div>
+            </section>
             ';
         }
     }

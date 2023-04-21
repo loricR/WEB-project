@@ -2,7 +2,7 @@ body {
     width: 100%;
     height: 100vh;
     margin: 0;
-    background-color: #1b1b32;
+    background-color: #1b1b32;  /**1b1b32**/
     color: #f5f6f7;
     font-family: Tahoma;
     font-size: 16px;
@@ -74,3 +74,59 @@ body {
       margin-top: 20px;
       margin-bottom: 20px;
   }
+
+.articles {
+  margin-top : 30px;
+}
+
+.articles .article{
+  display : flex;
+  flex-wrap : wrap;
+  margin-bottom: 30px;
+}
+
+.articles .article .left img {
+  height: 300px;
+  width: 500px;
+}
+
+.articles .article .right{
+  max-width: 50%;
+  margin-left:40px; 
+  color: #000;
+}
+
+.articles .article .right p.date{
+  color: #D3D3F7 ;
+  text-align: left;
+}
+
+.articles .article .right p.contenu{
+  color: #808080 ;
+  text-align: left;
+  
+}
+
+.title{
+  color: #FFC300;
+}
+
+.modifier form {
+  display: inline-block;
+}
+
+.modifier button[type="submit"] {
+  background-color: #f2f2f2;
+  color: #1b1b32;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modifier button[type="submit"]:hover {
+  background-color: #1b1b32;
+  color: #f2f2f2;
+}

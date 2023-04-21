@@ -21,12 +21,14 @@ if ( isset($_GET["userID"]) ){
         $isMyOwnBlog = true;
         $blogOwnerName = $_SESSION["login"];
     }
-    else {
+    else { 
+        include("connexion-base.php");
         $req = $pdo->prepare("SELECT `pseudo` FROM `utilisateur` WHERE `id_utilisateur` =?");
         $req->execute(array($_GET["userID"]));
-        $result = $req->fetch();
-        
-        if ( isset($result) != 0 ){ $blogOwnerName = $result;}
+        $result = $req->fetchAll();
+        if ( isset($result[0]["pseudo"]) ){ // On vérifie si le résultat est non vide
+            $blogOwnerName = $result[0]["pseudo"];
+        }
     }
     
     if ($blogOwnerName != ""){
