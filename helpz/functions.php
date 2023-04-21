@@ -72,6 +72,37 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
     }
 }
 
+// Function to display a post
+//--------------------------------------------------------------------------------
+function DisplayPost($id_post, $id_utilisateur, $titre, $contenu, $imgPresentation, $date_post){
+    include("connexion-base.php");
+    $query = $pdo->prepare("SELECT pseudo FROM `utilisateur` WHERE `id_utilisateur` =?");
+    $query->execute(array($id_utilisateur));
+    $result = $query->fetchAll();
+    /**echo "<pre>";
+    print_r($result);
+    echo "</pre>";**/
+    $timestamp = strtotime($date_post);
+    if (isset($result)){
+        echo '
+        <section class="articles">
+            <div class="article">
+                <div class="left">
+                    <img src="'.$imgPresentation.'" alt"image jeu">
+                </div>
+
+                <div class="right">
+                    <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'  
+                    <h3 class = "title">•'.$titre.'</h3>
+                    <p class="contenu">'.$contenu.'</p>   
+    
+                    <div class="autheur">par '.$result[0]["pseudo"].'</div>   <!-- selection d une valeur spécifique du tableau -->
+                </div>
+            </div>
+        </section>
+        ';  
+    }
+}
 
 // Function to check login. returns an array with 2 booleans
 // Boolean 1 = is login successful, Boolean 2 = was login attempted
