@@ -21,7 +21,7 @@ include_once(__ROOT__."/helpz/functions.php");
 			echo '<li id="ID_myblog" class="menu-deroulant"><a href="./blog.php?userID=' . $_SESSION["id"] . '"><img src="' . getAvatarLink($_SESSION["id"]) . '" alt=avatar> ' . $_SESSION["login"] . '</a>';
 			echo '<ul class="sous-menu">';
 			echo '<li><a href="./blog.php?userID=' . $_SESSION["id"] . '">Mon Blog</a></li>';
-			echo '<li><a href="#">Mon Profil</a></li>';
+			echo '<li><a href="profil.php">Mon Profil</a></li>';
 			echo '<li><a href="./logout.php">Déconnexion</a></li>';
 			echo '</ul>';
 			echo '</li>';
