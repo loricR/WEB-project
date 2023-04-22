@@ -208,9 +208,13 @@ window.addEventListener("load", (event) => {
     }
     if (formSupprPost) {    //S'il y a bien le formulaire dans la page
         formSupprPost.addEventListener("submit", function (e) {
-            e.preventDefault();
-            var data = new FormData(this);
-            envoiPost(data);
+            if (confirm("Etes-vous sûr de vouloir supprimer ce post ?")) {  //Popup de confirmation, si OK alors on fait l'action, sinon on fait rien
+                e.preventDefault();
+                var data = new FormData(this);
+                envoiPost(data);
+            } else {
+                e.preventDefault();
+            }
         })
     }
 })
@@ -236,4 +240,38 @@ function envoiPost(data) {
     xhr.open("POST", "processPost.php", true);
     xhr.responseType = "json";
     xhr.send(data);
+}
+
+
+window.addEventListener("load", (event) => {
+    var formRecherche = document.getElementById("form-recherche");
+    if (formRecherche) {  //S'il y a bien le formulaire dans la page
+        formRecherche.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            requeteRecherche(data);
+        })
+    }
+})
+
+function requeteRecherche(data) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = this.response;
+            afficherRecherche(res);
+        }
+        if (this.readyState == 4 && this.status == 404) {
+            alert("Erreur 404");
+        }
+    };
+
+    xhr.open("POST", "execRecherche.php", true);
+    xhr.responseType = "text";
+    xhr.send(data);
+}
+
+function afficherRecherche(res) {
+    document.getElementById("resultat-recherche").innerHTML = res;
 }

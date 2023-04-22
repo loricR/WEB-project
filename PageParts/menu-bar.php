@@ -10,25 +10,25 @@ include_once(__ROOT__."/helpz/functions.php");
 <div>
 <nav>
 <ul class="dropdownmenu">
-  <li><a href="index.php">Accueil</a>
+  <li class="elem-menu"><a href="index.php">Accueil</a>
   </li>
-  <li><a href="liste-blog.php">Liste des blogs</a>
+  <li class="elem-menu"><a href="liste-blog.php">Liste des blogs</a>
   </li>
-  <li><a href="#">Rechercher</a></li>
+  <li class="elem-menu"><a href="recherche.php">Rechercher</a></li>
 	<?php 
 		if(isset($_SESSION["id"]))
 		{
-			echo '<li id="ID_myblog" class="menu-deroulant"><a href="./blog.php?userID=' . $_SESSION["id"] . '"><img src="' . getAvatarLink($_SESSION["id"]) . '" alt=avatar> ' . $_SESSION["login"] . '</a>';
+			echo '<li id="ID_myblog" class="menu-deroulant elem-menu"><a href="./blog.php?userID=' . $_SESSION["id"] . '"><img src="' . getAvatarLink($_SESSION["id"]) . '" alt=avatar> ' . $_SESSION["login"] . '</a>';
 			echo '<ul class="sous-menu">';
-			echo '<li><a href="./blog.php?userID=' . $_SESSION["id"] . '">Mon Blog</a></li>';
-			echo '<li><a href="profil.php">Mon Profil</a></li>';
-			echo '<li><a href="./logout.php">Déconnexion</a></li>';
+			echo '<li class="elem-menu"><a href="./blog.php?userID=' . $_SESSION["id"] . '">Mon Blog</a></li>';
+			echo '<li class="elem-menu"><a href="profil.php">Mon Profil</a></li>';
+			echo '<li class="elem-menu"><a href="./logout.php">Déconnexion</a></li>';
 			echo '</ul>';
 			echo '</li>';
 		}
 		else
 		{
-			echo '<li>';
+			echo '<li class="elem-menu">';
 			echo '<a id="show-login-btn" href="#" onclick=\'showPopup("popup-login")\'>Connexion</a>';
 			echo '</li>';
 		}
