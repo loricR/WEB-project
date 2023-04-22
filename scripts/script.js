@@ -275,3 +275,48 @@ function requeteRecherche(data) {
 function afficherRecherche(res) {
     document.getElementById("resultat-recherche").innerHTML = res;
 }
+
+
+function clickCommentaire(idPost) {
+    document.getElementById("commentaire"+idPost).classList.remove("hidden");
+    document.getElementById("btn-commenter"+idPost).classList.add("hidden");
+    document.getElementById("annuler-commenter" + idPost).classList.remove("hidden");
+    document.getElementById("form-commentaire" + idPost).addEventListener("submit", function (e) {
+        e.preventDefault();
+        var data = new FormData(this);
+        requeteCommentaire(data);
+    })
+}
+
+function clickAnnulerCommenter(idPost) {
+    document.getElementById("commentaire"+idPost).classList.add("hidden");
+    document.getElementById("annuler-commenter"+idPost).classList.add("hidden");
+    document.getElementById("btn-commenter"+idPost).classList.remove("hidden");
+}
+
+function requeteCommentaire(data) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = this.response;
+            resultatCommentaire(res);
+        }
+        if (this.readyState == 4 && this.status == 404) {
+            alert("Erreur 404");
+        }
+    };
+
+    xhr.open("POST", "commenter.php", true);
+    xhr.responseType = "json";
+    xhr.send(data);
+}
+
+function resultatCommentaire(res) {
+    if (res.sql === true && res.existe === true) { //Si tout est bon
+        location.reload();  //On recharge la page et on verra les changements
+    }
+    else {
+        alert("Une erreur est surevenue");
+    }
+}

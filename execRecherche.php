@@ -54,6 +54,16 @@ if(isset($_POST["pseudo"]) && isset($_POST["titre"]))
 				echo '
                             <div class="autheur">par '.$donnee["pseudoPost"].'</div>
                             ';
+				echo '<div id="commentaire'.$donnee["id_post"].'" class="hidden">
+                                <form id="form-commentaire" action"commenter.php" method="POST">
+                                    <label for="commentaire">Votre commentaire :</label>
+                                    <textarea name="commentaire" placeholder="Tapez votre commentaire ici..."></textarea>
+                                    <input type="hidden" name="id_post" value="'.$donnee["id_post"].'">
+                                    <input type="submit" value="Envoyer" />
+                                </form>
+                            </div>';
+				echo '<button id="btn-commenter'.$donnee["id_post"].'"  onclick="clickCommentaire('.$donnee["id_post"].')">Commenter</button>';
+				echo '<button id="annuler-commenter'.$donnee["id_post"].'" class="hidden" onclick="clickAnnulerCommenter('.$donnee["id_post"].')">Annuler</button>';
 			}
 			echo '
                     </div>

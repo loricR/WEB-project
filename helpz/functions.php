@@ -16,7 +16,7 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
             <button type="submit">Ajouter un nouveau post!</button>
         </form>
 
-        <?php    
+        <?php
         }
 
         foreach( $result as $row ){
@@ -30,9 +30,9 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
                     </div>
 
                     <div class="right">
-                        <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'  
+                        <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'
                         <h3 class = "title">•'.$row["titre"].'</h3>
-                        <p class="contenu">'.$row["contenu"].'</p>   
+                        <p class="contenu">'.$row["contenu"].'</p>
 
                         ';
                         if ($isMyBlog){
@@ -46,9 +46,19 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
                             </div>';
                         }
                         else {
-                            echo '  
+                            echo '
                             <div class="autheur">par '.$ownerName.'</div>
                             ';
+                            echo '<div id="commentaire'.$row["id_post"].'" class="hidden">
+                                <form id="form-commentaire" action"commenter.php" method="POST">
+                                    <label for="commentaire">Votre commentaire :</label>
+                                    <textarea name="commentaire" placeholder="Tapez votre commentaire ici..."></textarea>
+                                    <input type="hidden" name="id_post" value="'.$row["id_post"].'">
+                                    <input type="submit" value="Envoyer" />
+                                </form>
+                            </div>';
+                            echo '<button id="btn-commenter'.$row["id_post"].'" onclick="clickCommentaire('.$row["id_post"].')">Commenter</button>';
+							echo '<button id="annuler-commenter'.$row["id_post"].'" class="hidden" onclick="clickAnnulerCommenter('.$row["id_post"].')">Annuler</button>';
                         }
                         echo '
                     </div>
@@ -62,7 +72,7 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
         <p>Il n\'y a pas de post dans ce blog.</p>';
 
         if ($isMyBlog){
-        ?>
+?>
             <form action="editPost.php" method="POST">
                 <input type="hidden" name="newPost" value="1">
                 <button type="submit">Ajouter un premier post!</button>
@@ -79,9 +89,11 @@ function DisplayPost($id_post, $id_utilisateur, $titre, $contenu, $imgPresentati
     $query = $pdo->prepare("SELECT pseudo FROM `utilisateur` WHERE `id_utilisateur` =?");
     $query->execute(array($id_utilisateur));
     $result = $query->fetchAll();
-    /**echo "<pre>";
-    print_r($result);
-    echo "</pre>";**/
+
+    $req = $pdo->prepare("SELECT id_utilisateur FROM `post` WHERE `id_post` =?");
+    $req->execute(array($id_post));
+    $donnee = $req->fetch();
+
     $timestamp = strtotime($date_post);
     if (isset($result)){
         echo '
@@ -92,15 +104,28 @@ function DisplayPost($id_post, $id_utilisateur, $titre, $contenu, $imgPresentati
                 </div>
 
                 <div class="right">
-                    <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'  
+                    <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'
                     <h3 class = "title">•'.$titre.'</h3>
-                    <p class="contenu">'.$contenu.'</p>   
-    
+                    <p class="contenu">'.$contenu.'</p>
+
                     <div class="autheur">par '.$result[0]["pseudo"].'</div>   <!-- selection d une valeur spécifique du tableau -->
-                </div>
+                <div id="commentaire'.$id_post.'" class="hidden">
+                    <form id="form-commentaire" action"commenter.php" method="POST">
+                        <label for="commentaire">Votre commentaire :</label>
+                        <textarea name="commentaire" placeholder="Tapez votre commentaire ici..."></textarea>
+                        <input type="hidden" name="id_post" value="'.$id_post.'">
+                        <input type="submit" value="Envoyer" />
+                    </form>
+                </div>';
+        if($donnee["id_utilisateur"] != $_SESSION["id"])    //Si c'est pas le post de l'utilisateur connecté
+	    {
+            echo '<button id="btn-commenter'.$id_post.'" onclick="clickCommentaire('.$id_post.')">Commenter</button>';
+            echo '<button id="annuler-commenter'.$id_post.'" class="hidden" onclick="clickAnnulerCommenter('.$id_post.')">Annuler</button>';
+		}
+          echo '</div>
             </div>
         </section>
-        ';  
+        ';
     }
 }
 
@@ -110,7 +135,7 @@ function DisplayPost($id_post, $id_utilisateur, $titre, $contenu, $imgPresentati
 function CheckLogin(){
     global $conn, $username, $userID;
 
-    $error = NULL; 
+    $error = NULL;
     $loginSuccessful = false;
 
     //Données reçues via formulaire?
