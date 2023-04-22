@@ -2,12 +2,12 @@
     --taille-element: 25%; /*Car il y a 4 elements*/
 }
 
-li {
+.elem-menu {
     float: left;
     width: var(--taille-element); 
 }
 
-li a {
+.elem-menu a {
     display: block;
     color: white;
     text-align: center;
@@ -16,7 +16,7 @@ li a {
     background-color: #3b3b4f;
 }
 
-li a:hover {
+.elem-menu a:hover {
     background-color: #3b6969;
 }
 
@@ -48,11 +48,11 @@ li a:hover {
     position: absolute;
 }
 
-nav > ul li:hover .sous-menu {
+nav > ul .elem-menu:hover .sous-menu {
     display: block;
 }
 
-.sous-menu li {
+.sous-menu .elem-menu {
     float: none;
     width: 100%;
 }
