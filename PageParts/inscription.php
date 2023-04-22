@@ -42,7 +42,7 @@
         </label>
     </div>
     <div class="form-element">
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" >
     </div>
 </form>
 <div id="retour-inscription"><ul></ul></div>

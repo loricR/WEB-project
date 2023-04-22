@@ -1,12 +1,14 @@
-window.addEventListener("load", function init() {
-    document.getElementById("form-inscription").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var data = new FormData(this);
-        verifyImgSize(1048576, "input-avatar");  //On vérifie que la taille de l'avatar n'est pas trop grande (ici 1Mo max)
-        requete(data);
-        return false;
-    })
-});
+window.addEventListener("load", (event) => {
+    var formInscription = document.getElementById("form-inscription");
+    if (formInscription) {  //S'il y a bien le formulaire dans la page
+        formInscription.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            verifyImgSize(1048576, "input-avatar");  //On vérifie que la taille de l'avatar n'est pas trop grande (ici 1Mo max)
+            requete(data);
+        })
+    }
+})
 
 function requete(data) {  
     var xhr = new XMLHttpRequest();
@@ -72,47 +74,6 @@ function afficherMessage(res) {
         document.getElementById("retour-inscription").innerHTML = "";
         location.href = "index.php";
     }
-
-    /*if (res.existe === 'ok' && res.mail === 'ok' && res.pseudo === 'ok' && res.mdp === 'ok' && res.prenom === 'ok' && res.nom === 'ok') {
-        if (res.sql !== 'ok') {
-            ecrireRetour("retour-inscription", "Erreur d'envoie des données");
-        }
-    }*/
-    /*if (res.mail !== 'ok') {
-        ecrireRetour("retour-inscription", res.mail);
-        mettreRouge("input-inscription-email");
-    }
-    else {
-        supprimerRouge("input-inscription-email");
-    }
-    if (res.mdp !== 'ok') {
-        ecrireRetour("retour-inscription", res.mdp);
-        mettreRouge("input-inscription-mdp");
-    }
-    else {
-        supprimerRouge("input-inscription-mdp");
-    }
-    if (res.prenom !== 'ok') {
-        ecrireRetour("retour-inscription", res.prenom);
-        mettreRouge("input-prenom");
-    }
-    else {
-        supprimerRouge("input-prenom");
-    }
-    if (res.nom !== 'ok') {
-        ecrireRetour("retour-inscription", res.nom);
-        mettreRouge("input-nom");
-    }
-    else {
-        supprimerRouge("input-nom");
-    }
-    if (res.pseudo !== 'ok') {
-        ecrireRetour("retour-inscription", res.pseudo);
-        mettreRouge("input-inscription-pseudo");
-    }
-    else {
-        supprimerRouge("input-inscription-pseudo");
-    }*/
 }
 
 function ecrireRetour(obj_id, retour) {
@@ -135,14 +96,16 @@ function supprimerRouge(obj_id) {
 
 
 
-window.addEventListener("load", function init() {
-    document.getElementById("form-connexion").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var data = new FormData(this);
-        requeteConnexion(data);
-        return false;
-    })
-});
+window.addEventListener("load", (event) => {
+    var formConnexion = document.getElementById("form-connexion");
+    if (formConnexion) {  //S'il y a bien le formulaire dans la page
+        formConnexion.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            requeteConnexion(data);
+        })
+    }
+})
 
 function requeteConnexion(data) {
     var xhr = new XMLHttpRequest();
@@ -222,28 +185,34 @@ function verifyImgSize(maxSizeOctet, inputName) {
     return true;    //Vrai aussi quand il n'y a pas de fichier
 }
 
-window.addEventListener("load", function init() {
-    document.getElementById("form-newPost").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var data = new FormData(this);
-        envoiPostNew(data);
-        return false;
-    });
+window.addEventListener("load", (event) => {
+    var formNewPost = document.getElementById("form-newPost");
+    if (formNewPost) {  //S'il y a bien le formulaire dans la page
+        formNewPost.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            envoiPostNew(data);
+        })
+    }
 })
 
-window.addEventListener("load", function init() {
-    document.getElementById("form-editPost").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var data = new FormData(this);
-        envoiPost(data);
-        return false;
-    });
-    document.getElementById("form-supprPost").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var data = new FormData(this);
-        envoiPost(data);
-        return false;
-    });
+window.addEventListener("load", (event) => {
+    var formModifPost = document.getElementById("form-editPost");
+    var formSupprPost = document.getElementById("form-supprPost");
+    if (formModifPost) {  //S'il y a bien le formulaire dans la page
+        formModifPost.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            envoiPost(data);
+        })
+    }
+    if (formSupprPost) {    //S'il y a bien le formulaire dans la page
+        formSupprPost.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            envoiPost(data);
+        })
+    }
 })
 
 function envoiPostNew(data) {

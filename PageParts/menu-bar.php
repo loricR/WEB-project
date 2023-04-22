@@ -29,7 +29,7 @@ include_once(__ROOT__."/helpz/functions.php");
 		else
 		{
 			echo '<li>';
-			echo '<a id="show-login-btn" href="#">Connexion</a>';
+			echo '<a id="show-login-btn" href="#" onclick=\'showPopup("popup-login")\'>Connexion</a>';
 			echo '</li>';
 		}
 	?>
