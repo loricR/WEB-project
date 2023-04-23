@@ -208,7 +208,7 @@ window.addEventListener("load", (event) => {
     }
     if (formSupprPost) {    //S'il y a bien le formulaire dans la page
         formSupprPost.addEventListener("submit", function (e) {
-            if (confirm("Etes-vous sûr de vouloir supprimer ce post ?")) {  //Popup de confirmation, si OK alors on fait l'action, sinon on fait rien
+            if (confirm("Etes-vous sûr de vouloir supprimer ce post et tous ses commentaires ?")) {  //Popup de confirmation, si OK alors on fait l'action, sinon on fait rien
                 e.preventDefault();
                 var data = new FormData(this);
                 envoiPost(data);

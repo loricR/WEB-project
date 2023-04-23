@@ -1,4 +1,4 @@
-DROP DATABASE blog;
+DROP DATABASE IF EXISTS blog;
 
 CREATE DATABASE IF NOT EXISTS blog DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE blog;
@@ -36,7 +36,7 @@ CREATE TABLE commentaire (
   date_commentaire timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id_utilisateur),
-  FOREIGN KEY (id_post) REFERENCES post (id_post)
+  FOREIGN KEY (id_post) REFERENCES post (id_post) ON DELETE CASCADE /*Supprime les commentaires quand un post est supprimé*/
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `date_naissance`, `nom`, `prenom`, `email`, `pseudo`, `mdp`, `avatar`, `administrateur`) VALUES
