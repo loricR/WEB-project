@@ -275,3 +275,100 @@ function requeteRecherche(data) {
 function afficherRecherche(res) {
     document.getElementById("resultat-recherche").innerHTML = res;
 }
+
+var commentaireEvent = false;
+
+function clickCommentaire(idPost) {
+    document.getElementById("commentaire"+idPost).classList.remove("hidden");
+    document.getElementById("btn-commenter"+idPost).classList.add("hidden");
+    document.getElementById("annuler-commenter" + idPost).classList.remove("hidden");
+    if (commentaireEvent == false) {
+        commentaireEvent = true;
+        document.getElementById("form-commentaire" + idPost).addEventListener("submit", function (e) {
+            console.log(commentaireEvent);
+            e.preventDefault();
+            var data = new FormData(this);
+            console.log(data);
+            requeteCommentaire(data, idPost);
+        })
+    }
+}
+
+function clickAnnulerCommenter(idPost) {
+    document.getElementById("commentaire"+idPost).classList.add("hidden");
+    document.getElementById("annuler-commenter"+idPost).classList.add("hidden");
+    document.getElementById("btn-commenter"+idPost).classList.remove("hidden");
+}
+
+function requeteCommentaire(data, idPost) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = this.response;
+            resultatCommentaire(res, idPost);
+        }
+        if (this.readyState == 4 && this.status == 404) {
+            alert("Erreur 404");
+        }
+    };
+
+    xhr.open("POST", "commenter.php", true);
+    xhr.responseType = "json";
+    xhr.send(data);
+}
+
+function resultatCommentaire(res, idPost) {
+    if (res.sql === true && res.existe === true) { //Si tout est bon
+        commentaire(idPost);
+        document.getElementById("text-commentaire" + idPost).value = "";
+        clickAnnulerCommenter(idPost);
+        var btnAfficheCommentaire = document.getElementById("btn-affiche-commentaire" + idPost);
+        var text = btnAfficheCommentaire.innerHTML;
+        var nbCommentaire = text.match(/\d/g);  //On récupère les chiffres de commentaire (le nombre qui est écrit)
+        if (nbCommentaire != null) {    //Il y a plus qu'un commentaire
+            nbCommentaire = nbCommentaire.join(""); //On rejoint les chiffres trouvés pour faire le nombre
+            btnAfficheCommentaire.innerHTML = btnAfficheCommentaire.innerHTML.replace(nbCommentaire, parseInt(nbCommentaire) + 1);    //On change le nombre de commentaires
+        }
+        else {
+            btnAfficheCommentaire.innerHTML = "Voir les 2 commentaires";    //Il y a 2 commentaires car on en ajoute un et qu'il y en avait 1
+        }
+    }
+    else {
+        alert("Une erreur est surevenue");
+    }
+}
+
+function commentaire(idPost) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = this.response;
+            showHideCommentaire(res, idPost);
+        }
+        if (this.readyState == 4 && this.status == 404) {
+            alert("Erreur 404");
+        }
+    };
+
+    xhr.open("POST", "commentaires.php", true);
+    xhr.responseType = "text";
+    var data = new FormData();
+    data.append("idPost", idPost);
+    xhr.send(data);   //On envoi idPost à la page commentaires.php
+}
+
+function showHideCommentaire(res, idPost) {
+    var divAffichage = document.getElementById("affichage-commentaire" + idPost);
+    var btnAfficherCommentaire = document.getElementById("btn-affiche-commentaire" + idPost);
+
+    if (divAffichage.childElementCount > 0) {   //Si les commentaires étaient déjà affichés
+        divAffichage.innerHTML = "";    //On enlève l'affichage des commentaires
+        btnAfficherCommentaire.innerHTML = btnAfficherCommentaire.innerHTML.replace("Masquer", "Voir");
+    }
+    else {
+        document.getElementById("affichage-commentaire" + idPost).innerHTML = res;
+        btnAfficherCommentaire.innerHTML = btnAfficherCommentaire.innerHTML.replace("Voir", "Masquer");
+    }
+}

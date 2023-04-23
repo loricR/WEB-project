@@ -50,7 +50,7 @@
                         <input type="submit" value="Inscription" />
                     </div>
                 </form>
-                <div id="retour-inscription"><ul></ul></div>
+                <div><ul id="retour-inscription"></ul></div>
                 <a id="show-login-link" href="#" onclick='showPopup("popup-login")'>Déjà un compte?</a>
         </div>
 </div>

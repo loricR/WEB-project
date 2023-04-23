@@ -26,6 +26,10 @@ if(isset($_POST["pseudo"]) && isset($_POST["titre"]))
 
 		while($donnee=$req->fetch())	//On affiche les post ligne par ligne
 		{
+			$reqComm = $pdo->prepare("SELECT count(id_post) AS nbCommentaire FROM `commentaire` WHERE `id_post` =?");
+			$reqComm->execute(array($donnee["id_post"]));
+			$resultCount = $reqComm->fetch();
+
 			$timestamp = strtotime($donnee["date_post"]);
             echo '
             <section class="articles">
@@ -40,7 +44,7 @@ if(isset($_POST["pseudo"]) && isset($_POST["titre"]))
                         <p class="contenu">'.$donnee["contenu"].'</p>
 
                         ';
-			if ($donnee["pseudoPost"] == $_SESSION["login"])
+			if (isset($_SESSION["login"]) && $donnee["pseudoPost"] == $_SESSION["login"])
 			{
 				echo '
                             <div class="modifier">
@@ -49,11 +53,43 @@ if(isset($_POST["pseudo"]) && isset($_POST["titre"]))
                                     <button type="submit">Modifier/effacer</button>
                                 </form>
                             </div>';
+				if($resultCount["nbCommentaire"] === 1)
+				{
+					echo '<button id="btn-affiche-commentaire'.$donnee["id_post"].'" onclick="commentaire('.$donnee["id_post"].')">Voir les '.$resultCount["nbCommentaire"].' commentaires</button>';
+				}
+				else
+				{
+					echo '<button id="btn-affiche-commentaire'.$donnee["id_post"].'" onclick="commentaire('.$donnee["id_post"].')">Voir le commentaire</button>';
+				}
+                echo '<div id="affichage-commentaire'.$donnee["id_post"].'"></div>'; //Pour afficher les commentaires en javascript
 			}
-			else {
+			else if(isset($_SESSION["login"]) && $donnee["pseudoPost"] != $_SESSION["login"] || !isset($_SESSION["login"])){
 				echo '
                             <div class="autheur">par '.$donnee["pseudoPost"].'</div>
                             ';
+
+				if($resultCount["nbCommentaire"] === 1)
+				{
+					echo '<button id="btn-affiche-commentaire'.$donnee["id_post"].'" onclick="commentaire('.$donnee["id_post"].')">Voir le commentaire</button>';
+				}
+				else
+				{
+					echo '<button id="btn-affiche-commentaire'.$donnee["id_post"].'" onclick="commentaire('.$donnee["id_post"].')">Voir les '.$resultCount["nbCommentaire"].' commentaires</button>';
+				}
+                echo '<div id="affichage-commentaire'.$donnee["id_post"].'"></div>'; //Pour afficher les commentaires en javascript
+				if(isset($_SESSION["id"]))
+				{
+					echo '<div id="commentaire'.$donnee["id_post"].'" class="hidden">
+                                <form id="form-commentaire'.$donnee["id_post"].'" action"commenter.php" method="POST">
+                                    <label for="commentaire">Votre commentaire :</label>
+                                    <textarea id="text-commentaire'.$donnee["id_post"].'" name="commentaire" placeholder="Tapez votre commentaire ici..."></textarea>
+                                    <input type="hidden" name="id_post" value="'.$donnee["id_post"].'">
+                                    <input type="submit" value="Envoyer" />
+                                </form>
+                            </div>';
+					echo '<button id="btn-commenter'.$donnee["id_post"].'"  onclick="clickCommentaire('.$donnee["id_post"].')">Commenter</button>';
+					echo '<button id="annuler-commenter'.$donnee["id_post"].'" class="hidden" onclick="clickAnnulerCommenter('.$donnee["id_post"].')">Annuler</button>';
+				}
 			}
 			echo '
                     </div>
