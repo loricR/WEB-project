@@ -93,14 +93,16 @@ function supprimerRouge(obj_id) {
 //------CONNEXION----
 
 
-window.addEventListener("load", function init() {
-    document.getElementById("form-connexion").addEventListener("submit", function (e) {
-        e.preventDefault();
-        var data = new FormData(this);
-        requeteConnexion(data);
-        return false;
-    })
-});
+window.addEventListener("load", (event) => {
+    var formConnexion = document.getElementById("form-connexion");
+    if (formConnexion) {  //S'il y a bien le formulaire dans la page
+        formConnexion.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            requeteConnexion(data);
+        })
+    }
+})
 
 
 window.addEventListener("load", (event) => {

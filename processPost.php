@@ -24,7 +24,12 @@ if( isset($_POST["action"])){
                 $imgDir = "images/post";
                 $infoFile = pathinfo($_FILES["imgPresentation"]["name"]);
                 $extension = $infoFile["extension"];
+                $lienImgSansExt = $imgDir . "/" . $id;
                 $lienImg = $imgDir . "/" . $id . "." . $extension;    //Le nom de l'image est l'id du post pour être sûr qu'il n'y ai pas 2 fois le même nom de fichier
+
+                if($lienASuppr = glob($lienImgSansExt.".*")) {  //On cherche si un fichier a déjà le nom de l'id du post
+					unlink($lienASuppr[0]); //On supprime le fichier qui a le même nom
+				}
 
                 move_uploaded_file($_FILES["imgPresentation"]["tmp_name"], $lienImg);    //On met l'image du post dans le dossier post avec comme nom l'id
 
@@ -49,7 +54,12 @@ if( isset($_POST["action"])){
                 $imgDir = "images/post";
                 $infoFile = pathinfo($_FILES["imgPresentation"]["name"]);
                 $extension = $infoFile["extension"];
+                $lienImgSansExt = $imgDir . "/" . $id;
                 $lienImg = $imgDir . "/" . $id . "." . $extension;    //Le nom de l'image est l'id du post pour être sûr qu'il n'y ai pas 2 fois le même nom de fichier
+
+                if($lienASuppr = glob($lienImgSansExt.".*")) {  //On cherche si un fichier a déjà le nom de l'id du post
+					unlink($lienASuppr[0]); //On supprime le fichier qui a le même nom
+				}
 
                 move_uploaded_file($_FILES["imgPresentation"]["tmp_name"], $lienImg);    //On met l'image du post dans le dossier post avec comme nom l'id
 
