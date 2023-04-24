@@ -26,11 +26,6 @@ if(isset($_POST['login']) && isset($_POST['mdp']))
                         $login=true;
                         $mdp=true;
                         $id=$donnee['id_utilisateur'];
-                        //include("connexion-base.php");
-                        //$req = $pdo->prepare("SELECT administrateur FROM utilisateur WHERE id_utilisateur=?");
-                        //$req->execute(array($id));
-                        //$donnee=$req->fetch();
-                        //$admin = $donnee['administrateur'];
                     }
                     else
                     {
@@ -69,12 +64,11 @@ if($existe===true && $login===true && $mdp===true)
     $req->execute(array($_POST['login']));
     $donnee = $req->fetch();
     $id = $donnee['id_utilisateur'];
-    //Afficher l'id : 
-    //echo $id;
+
     $_SESSION['id'] = $id;
     $_SESSION['login'] = $_POST['login'];
     setcookie("login", $_SESSION["login"], time() + 24*3600); //cookies enregistrés pour 24h
-    setcookie("id", $_SESSION['id'], time() + 24*3600); //cookies enregistrés pour 24h"])
+    setcookie("id", $_SESSION['id'], time() + 24*3600); //cookies enregistrés pour 24h
 }
 else
 {
