@@ -53,6 +53,10 @@ elseif ( isset($_GET["postID"]) ){
                 <label for="titre">Titre :</label>
                 <input autofocus type="text" name="titre" value="<?php echo $data["titre"];?>">
             </div>
+			<div>
+				<label for="imgPresentation">Image de présentation :</label>
+				<input id="input-img" name="imgPresentation" type="file" accept="image/*" />
+			</div>
             <div>
                 <label for="contenu">Message :</label>
                 <textarea name="contenu"><?php echo $data["contenu"];?></textarea>

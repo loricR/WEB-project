@@ -15,7 +15,26 @@ if( isset($_POST["action"])){
     if ($_POST["action"] == "edit"){
         if (isset($_POST["titre"]) && isset($_POST["contenu"])){
             $req = $pdo->prepare("UPDATE post SET titre = ?, contenu = ? WHERE id_post = ?");
-            $reqSuccess = $req->execute(array($_POST["titre"],$_POST["contenu"], $_POST["postID"])); //reqSuccess true si requete à fonctionnée
+            $tmpSuccess = $req->execute(array($_POST["titre"],$_POST["contenu"], $_POST["postID"])); //reqSuccess true si requete à fonctionnée
+
+            $id = $_POST["postID"]; //On récupère l'ID du post que l'on veut modifier
+
+            if(isset($_FILES["imgPresentation"]["name"]) && !empty($_FILES["imgPresentation"]["name"]))
+            {
+                $imgDir = "images/post";
+                $infoFile = pathinfo($_FILES["imgPresentation"]["name"]);
+                $extension = $infoFile["extension"];
+                $lienImg = $imgDir . "/" . $id . "." . $extension;    //Le nom de l'image est l'id du post pour être sûr qu'il n'y ai pas 2 fois le même nom de fichier
+
+                move_uploaded_file($_FILES["imgPresentation"]["tmp_name"], $lienImg);    //On met l'image du post dans le dossier post avec comme nom l'id
+
+                $req = $pdo->prepare("UPDATE post SET imgPresentation = ? WHERE id_post = ?"); //On upload le lien de l'image dans la bdd
+                $reqSuccess = $req->execute(array($lienImg, $id));  //reqSuccess true si requete à fonctionnée
+            }
+            else
+			{
+                $reqSuccess = $tmpSuccess;
+			}
         }
     }
     elseif ($_POST["action"] == "new"){
@@ -31,6 +50,7 @@ if( isset($_POST["action"])){
                 $infoFile = pathinfo($_FILES["imgPresentation"]["name"]);
                 $extension = $infoFile["extension"];
                 $lienImg = $imgDir . "/" . $id . "." . $extension;    //Le nom de l'image est l'id du post pour être sûr qu'il n'y ai pas 2 fois le même nom de fichier
+
                 move_uploaded_file($_FILES["imgPresentation"]["tmp_name"], $lienImg);    //On met l'image du post dans le dossier post avec comme nom l'id
 
                 $req = $pdo->prepare("UPDATE post SET imgPresentation = ? WHERE id_post = ?"); //On upload le lien de l'image dans la bdd
