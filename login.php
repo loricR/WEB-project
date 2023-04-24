@@ -40,7 +40,7 @@ if(isset($_POST['login']) && isset($_POST['mdp']))
                 catch(PDOException $e)
                 {
 	                $sql=$e;
-                    $login='Probl�me serveur, veuillez r�essayer plus tard';
+                    $login='Problème serveur, veuillez réessayer plus tard';
                 }
         }
         else

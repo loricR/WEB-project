@@ -13,33 +13,10 @@
 	<?php
         include_once("initialize.php");
         include_once(__ROOT__."/PageParts/menu-bar.php");
+        include_once(__ROOT__."/PageParts/connexion.php");
+        include_once(__ROOT__."/PageParts/inscription.php");
 	?>
-
-<!-- CONNEXION -->
-
-    <div id="popup-login" class="popup">
-        <button id="close-login-btn" class="close-popup">&times;</button>
-        <div class="form">
-            <h2>Formulaire de connexion</h2>
-
-            <?php include_once(__ROOT__."/PageParts/connexion.php"); ?>
-
-            <a id="show-register-link" href="#">Pas de compte?</a>
-        </div>
-    </div>
-
-<!-- INSCRIPTION -->
-
-    <div id="popup-register" class="popup">
-        <button id="close-register-btn" class="close-popup">&times;</button>
-        <div class="form">
-            <h2>Formulaire d'inscription</h2>
-
-            <?php include_once(__ROOT__."/PageParts/inscription.php"); ?>
-
-            <a id="show-login-link" href="#">Déjà un compte?</a>
-        </div>
-    </div>
+    
 </body>
 </html>
 <?php
@@ -57,8 +34,8 @@ $result_utilisateurs = $req_utilisateurs->fetchAll();
 // Sélection de trois posts aléatoires pour ces trois utilisateurs
 $posts = array();
 foreach ($result_utilisateurs as $row_utilisateur) {
-    $id_utilisateur = $row_utilisateur["id_utilisateur"];
-    $req_posts = $pdo->query("SELECT id_post, id_utilisateur, titre, contenu, imgPresentation, date_post FROM post WHERE id_utilisateur = $id_utilisateur ORDER BY RAND() LIMIT 1");
+    $req_posts = $pdo->prepare("SELECT id_post FROM post WHERE id_utilisateur = ? ORDER BY RAND() LIMIT 1");
+    $req_posts->execute(array($row_utilisateur["id_utilisateur"]));
     $result_posts = $req_posts->fetchAll();
     if (count($result_posts) > 0) {
         $posts[] = $result_posts[0];
@@ -67,7 +44,7 @@ foreach ($result_utilisateurs as $row_utilisateur) {
 // Affichage des résultats
 if (count($posts) > 0) {
     foreach ($posts as $row) {
-        DisplayPost($row["id_post"], $row["id_utilisateur"], $row["titre"], $row["contenu"], $row["imgPresentation"], $row["date_post"]);
+        DisplayPost($row["id_post"]);
     }
 } else {
     echo '<p class="warning"> Aucun post n\'existe dans le système pour l\'instant!</p>';

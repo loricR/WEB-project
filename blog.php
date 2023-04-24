@@ -39,7 +39,7 @@ if ( isset($_GET["userID"]) ){
             echo "<h1>Bienvenue sur le blog de ".$blogOwnerName."</h1>";
         }
 
-        DisplayPostsPage( $_GET["userID"] , $blogOwnerName, $isMyOwnBlog);
+        DisplayBlog($_GET["userID"], $isMyOwnBlog);
     }
     else {
         echo "<h1>Erreur! Cette ID ne correspond à aucun utilisateur actif!</h1>";

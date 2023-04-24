@@ -152,4 +152,10 @@ body {
   background-color: #1b1b32;
   color: #f2f2f2;
   text-align : center;
+
+}
+
+.hidden {
+    display: none;
+
 }

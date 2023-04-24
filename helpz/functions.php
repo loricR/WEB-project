@@ -1,13 +1,12 @@
 <?php
 // Fonction qui affiche les posts d'un blog
 //--------------------------------------------------------------------------------
-function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
+function DisplayBlog($blogID, $isMyBlog){
     include("connexion-base.php");
-    $req = $pdo->prepare("SELECT * FROM `post` WHERE `id_utilisateur` =? ORDER BY date_post DESC LIMIT 10");
+    $req = $pdo->prepare("SELECT id_post FROM `post` WHERE `id_utilisateur` =? ORDER BY date_post DESC LIMIT 10");
     $req->execute(array($blogID));
-    $result = $req->fetchAll();
-    if( $req->rowCount() != 0 ){
 
+    if( $req->rowCount() > 0 ){
         if ($isMyBlog){
         ?>
         <div class = creer>
@@ -17,45 +16,11 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
         </form>
         </div>
 
-        <?php    
+        <?php
         }
 
-        foreach( $result as $row ){
-
-            $timestamp = strtotime($row["date_post"]);
-            echo '
-            <section class="articles">
-                <div class="article">
-                    <div class="left">
-                        <img src="'.$row["imgPresentation"].'" alt"image jeu">
-                    </div>
-
-                    <div class="right">
-                        <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'  
-                        <h3 class = "title">•'.$row["titre"].'</h3>
-                        <p class="contenu">'.$row["contenu"].'</p>   
-
-                        ';
-                        if ($isMyBlog){
-
-                            echo '
-                            <div class="modifier">
-                                <form action="editPost.php" method="GET">
-                                    <input type="hidden" name="postID" value="'.$row["id_post"].'">
-                                    <button type="submit">Modifier/effacer</button>
-                                </form>
-                            </div>';
-                        }
-                        else {
-                            echo '  
-                            <div class="autheur">par '.$ownerName.'</div>
-                            ';
-                        }
-                        echo '
-                    </div>
-                </div>
-            </section>
-            ';
+        while($donnee=$req->fetch()){
+            DisplayPost($donnee["id_post"]);
         }
     }
     else {
@@ -63,7 +28,7 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
         <p>Il n\'y a pas de post dans ce blog.</p>';
 
         if ($isMyBlog){
-        ?>
+?>
             <form action="editPost.php" method="POST">
                 <input type="hidden" name="newPost" value="1">
                 <button type="submit">Ajouter un premier post!</button>
@@ -75,33 +40,81 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
 
 // Fonction qui affiche un post avec les informations données en paramètres
 //--------------------------------------------------------------------------------
-function DisplayPost($id_post, $id_utilisateur, $titre, $contenu, $imgPresentation, $date_post){
+function DisplayPost($id_post){
     include("connexion-base.php");
-    $query = $pdo->prepare("SELECT pseudo FROM `utilisateur` WHERE `id_utilisateur` =?");
-    $query->execute(array($id_utilisateur));
-    $result = $query->fetchAll();
-    /**echo "<pre>";
-    print_r($result);
-    echo "</pre>";**/
-    $timestamp = strtotime($date_post);
-    if (isset($result)){
+
+    $reqUser = $pdo->prepare("SELECT utilisateur.id_utilisateur, utilisateur.pseudo FROM post INNER JOIN utilisateur ON utilisateur.id_utilisateur=post.id_utilisateur WHERE id_post =?");
+    $reqUser->execute(array($id_post));
+    $utilisateur = $reqUser->fetch();
+
+    $reqPost = $pdo->prepare("SELECT * FROM post WHERE id_post=?");
+    $reqPost->execute(array($id_post));
+    $donnee = $reqPost->fetch();
+
+    $reqComm = $pdo->prepare("SELECT count(id_post) AS nbCommentaire FROM `commentaire` WHERE `id_post` =?");
+	$reqComm->execute(array($id_post));
+	$resultCount = $reqComm->fetch();
+
+    $timestamp = strtotime($donnee["date_post"]);
+
+    $isMyPost = isset($_SESSION["id"]) && $utilisateur["id_utilisateur"] == $_SESSION["id"];
+
+    if (isset($utilisateur)){
         echo '
         <section class="articles">
             <div class="article">
                 <div class="left">
-                    <img src="'.$imgPresentation.'" alt"image jeu">
+                    <img src="'.$donnee["imgPresentation"].'" alt"image jeu">
                 </div>
 
                 <div class="right">
-                    <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp ).'  
-                    <h3 class = "title">•'.$titre.'</h3>
-                    <p class="contenu">'.$contenu.'</p>   
-    
-                    <div class="autheur">par '.$result[0]["pseudo"].'</div>   <!-- selection d une valeur spécifique du tableau -->
-                </div>
+                    <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp).'
+                    <h3 class = "title">•'.$donnee["titre"].'</h3>
+                    <p class="contenu">'.$donnee["contenu"].'</p>
+
+                    <div class="auteur">par '.$utilisateur["pseudo"].'</div>   <!-- selection d une valeur spécifique du tableau -->';
+
+		if($isMyPost)
+		{
+			echo '
+                <div class="modifier">
+                    <form action="editPost.php" method="GET">
+                        <input type="hidden" name="postID" value="'.$id_post.'">
+                        <button type="submit">Modifier/effacer</button>
+                    </form>
+                </div>';
+		}
+		if($resultCount["nbCommentaire"] === 1)
+		{
+            echo '<button id="btn-affiche-commentaire'.$id_post.'" onclick="commentaire('.$id_post.')">Voir le commentaire</button>';
+		}
+		else if($resultCount["nbCommentaire"] > 1)
+		{
+            echo '<button id="btn-affiche-commentaire'.$id_post.'" onclick="commentaire('.$id_post.')">Voir les '.$resultCount["nbCommentaire"].' commentaires</button>';
+		}
+        else
+		{
+            echo '<button id="btn-affiche-commentaire'.$id_post.'" onclick="commentaire('.$id_post.')">Pas encore de commentaire</button>';
+		}
+        echo '<div id="affichage-commentaire'.$id_post.'"></div>'; //Pour afficher les commentaires en javascript
+
+        if(!$isMyPost)    //Si c'est pas le post de l'utilisateur connecté
+	    {
+            echo '<div id="commentaire'.$id_post.'" class="hidden">
+                    <form id="form-commentaire'.$id_post.'" action"commenter.php" method="POST">
+                        <label for="commentaire">Votre commentaire :</label>
+                        <textarea id="text-commentaire'.$id_post.'" name="commentaire" placeholder="Tapez votre commentaire ici..."></textarea>
+                        <input type="hidden" name="id_post" value="'.$id_post.'">
+                        <input type="submit" value="Envoyer" />
+                    </form>
+                </div>';
+            echo '<button id="btn-commenter'.$id_post.'" onclick="clickCommentaire('.$id_post.')">Commenter</button>';
+            echo '<button id="annuler-commenter'.$id_post.'" class="hidden" onclick="clickAnnulerCommenter('.$id_post.')">Annuler</button>';
+		}
+          echo '</div>
             </div>
         </section>
-        ';  
+        ';
     }
 }
 
@@ -111,7 +124,7 @@ function DisplayPost($id_post, $id_utilisateur, $titre, $contenu, $imgPresentati
 function CheckLogin(){
     global $conn, $username, $userID;
 
-    $error = NULL; 
+    $error = NULL;
     $loginSuccessful = false;
 
     //Données reçues via formulaire?

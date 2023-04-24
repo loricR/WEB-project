@@ -1,13 +1,13 @@
 :root {
-    --taille-element: 25%;
+    --taille-element: 25%; /*Car il y a 4 elements*/
 }
 
-li {
+.elem-menu {
     float: left;
-    width: var(--taille-element); /*Car il y a 5 elements*/
+    width: var(--taille-element); 
 }
 
-li a {
+.elem-menu a {
     display: block;
     color: white;
     text-align: center;
@@ -16,7 +16,7 @@ li a {
     background-color: #3b3b4f;
 }
 
-li a:hover {
+.elem-menu a:hover {
     background-color: #3b6969;
 }
 
@@ -32,6 +32,7 @@ li a:hover {
     width: 15%;
     height: auto;
     vertical-align: middle;
+    margin: -33px 0;
 }
 
 #ID_myblog {
@@ -40,18 +41,18 @@ li a:hover {
 
 .sous-menu {
     display: none;
-    width: 100%;
+    width: var(--taille-element);
     z-index: 1000;
     list-style-type: none;
     padding-left: 0;
     position: absolute;
 }
 
-nav > ul li:hover .sous-menu {
+nav > ul .elem-menu:hover .sous-menu {
     display: block;
 }
 
-.sous-menu li {
+.sous-menu .elem-menu {
     float: none;
-    width: var(--taille-element);
+    width: 100%;
 }
