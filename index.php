@@ -34,8 +34,8 @@ $result_utilisateurs = $req_utilisateurs->fetchAll();
 // Sélection de trois posts aléatoires pour ces trois utilisateurs
 $posts = array();
 foreach ($result_utilisateurs as $row_utilisateur) {
-    $id_utilisateur = $row_utilisateur["id_utilisateur"];
-    $req_posts = $pdo->query("SELECT id_post, id_utilisateur, titre, contenu, imgPresentation, date_post FROM post WHERE id_utilisateur = $id_utilisateur ORDER BY RAND() LIMIT 1");
+    $req_posts = $pdo->prepare("SELECT id_post FROM post WHERE id_utilisateur = ? ORDER BY RAND() LIMIT 1");
+    $req_posts->execute(array($row_utilisateur["id_utilisateur"]));
     $result_posts = $req_posts->fetchAll();
     if (count($result_posts) > 0) {
         $posts[] = $result_posts[0];
@@ -44,7 +44,7 @@ foreach ($result_utilisateurs as $row_utilisateur) {
 // Affichage des résultats
 if (count($posts) > 0) {
     foreach ($posts as $row) {
-        DisplayPost($row["id_post"], $row["id_utilisateur"], $row["titre"], $row["contenu"], $row["imgPresentation"], $row["date_post"]);
+        DisplayPost($row["id_post"]);
     }
 } else {
     echo '<p class="warning"> Aucun post n\'existe dans le système pour l\'instant!</p>';

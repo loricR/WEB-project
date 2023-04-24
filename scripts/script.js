@@ -306,7 +306,7 @@ function requeteCommentaire(data, idPost) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var res = this.response;
-            resultatCommentaire(res, idPost);
+            resultatCommentaire(res, idPost, true);
         }
         if (this.readyState == 4 && this.status == 404) {
             alert("Erreur 404");
@@ -318,9 +318,9 @@ function requeteCommentaire(data, idPost) {
     xhr.send(data);
 }
 
-function resultatCommentaire(res, idPost) {
+function resultatCommentaire(res, idPost, forceShow) {
     if (res.sql === true && res.existe === true) { //Si tout est bon
-        commentaire(idPost);
+        commentaire(idPost, forceShow);
         document.getElementById("text-commentaire" + idPost).value = "";
         clickAnnulerCommenter(idPost);
         var btnAfficheCommentaire = document.getElementById("btn-affiche-commentaire" + idPost);
@@ -331,7 +331,12 @@ function resultatCommentaire(res, idPost) {
             btnAfficheCommentaire.innerHTML = btnAfficheCommentaire.innerHTML.replace(nbCommentaire, parseInt(nbCommentaire) + 1);    //On change le nombre de commentaires
         }
         else {
-            btnAfficheCommentaire.innerHTML = "Voir les 2 commentaires";    //Il y a 2 commentaires car on en ajoute un et qu'il y en avait 1
+            if (btnAfficheCommentaire.innerHTML.search("Pas encore de commentaire") === 0) {
+                btnAfficheCommentaire.innerHTML = "Voir le commentaire";    //Il y a 1 commentaire car on en ajoute un et qu'il n'y en avait pas
+            }
+            else {
+                btnAfficheCommentaire.innerHTML = "Voir les 2 commentaires";    //Il y a 2 commentaires car on en ajoute un et qu'il y en avait 1
+            }
         }
     }
     else {
@@ -339,36 +344,38 @@ function resultatCommentaire(res, idPost) {
     }
 }
 
-function commentaire(idPost) {
-    var xhr = new XMLHttpRequest();
+function commentaire(idPost, forceShow) {
+    if (document.getElementById("btn-affiche-commentaire" + idPost).innerHTML.search("Pas encore de commentaire") !== 0) {
+        var xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var res = this.response;
-            showHideCommentaire(res, idPost);
-        }
-        if (this.readyState == 4 && this.status == 404) {
-            alert("Erreur 404");
-        }
-    };
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var res = this.response;
+                showHideCommentaire(res, idPost, forceShow);
+            }
+            if (this.readyState == 4 && this.status == 404) {
+                alert("Erreur 404");
+            }
+        };
 
-    xhr.open("POST", "commentaires.php", true);
-    xhr.responseType = "text";
-    var data = new FormData();
-    data.append("idPost", idPost);
-    xhr.send(data);   //On envoi idPost à la page commentaires.php
+        xhr.open("POST", "commentaires.php", true);
+        xhr.responseType = "text";
+        var data = new FormData();
+        data.append("idPost", idPost);
+        xhr.send(data);   //On envoi idPost à la page commentaires.php
+    }
 }
 
-function showHideCommentaire(res, idPost) {
+function showHideCommentaire(res, idPost, forceShow) {
     var divAffichage = document.getElementById("affichage-commentaire" + idPost);
     var btnAfficherCommentaire = document.getElementById("btn-affiche-commentaire" + idPost);
 
-    if (divAffichage.childElementCount > 0) {   //Si les commentaires étaient déjà affichés
+    if (forceShow || divAffichage.childElementCount <= 0) { //Si on vient d'ajouter un commentaire ou que les commentaires ne sont pas affichés
+        document.getElementById("affichage-commentaire" + idPost).innerHTML = res;  //On met le résultat de commentaires.php dans l'élement
+        btnAfficherCommentaire.innerHTML = btnAfficherCommentaire.innerHTML.replace("Voir", "Masquer");
+    }
+    else if (divAffichage.childElementCount > 0) {   //Si les commentaires étaient déjà affichés
         divAffichage.innerHTML = "";    //On enlève l'affichage des commentaires
         btnAfficherCommentaire.innerHTML = btnAfficherCommentaire.innerHTML.replace("Masquer", "Voir");
-    }
-    else {
-        document.getElementById("affichage-commentaire" + idPost).innerHTML = res;
-        btnAfficherCommentaire.innerHTML = btnAfficherCommentaire.innerHTML.replace("Voir", "Masquer");
     }
 }
