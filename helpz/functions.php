@@ -1,5 +1,5 @@
 <?php
-// Function to display a page with 10 posts for a blog
+// Fonction qui affiche les posts d'un blog
 //--------------------------------------------------------------------------------
 function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
     include("connexion-base.php");
@@ -10,11 +10,12 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
 
         if ($isMyBlog){
         ?>
-
+        <div class = creer>
         <form action="editPost.php" method="POST">
             <input type="hidden" name="newPost" value="1">
             <button type="submit">Ajouter un nouveau post!</button>
         </form>
+        </div>
 
         <?php    
         }
@@ -72,7 +73,7 @@ function DisplayPostsPage($blogID, $ownerName, $isMyBlog){
     }
 }
 
-// Function to display a post
+// Fonction qui affiche un post avec les informations données en paramètres
 //--------------------------------------------------------------------------------
 function DisplayPost($id_post, $id_utilisateur, $titre, $contenu, $imgPresentation, $date_post){
     include("connexion-base.php");
@@ -147,7 +148,7 @@ function CheckLogin(){
     return array($loginSuccessful, $loginAttempted, $error, $userID);
 }
 
-//Function to clean up an user input for safety reasons
+//Retire les caractères spéciaux d'une chaine de caractères pour la sécuriser et éviter les injections SQL
 //--------------------------------------------------------------------------------
 function SecurizeString_ForSQL($string) {
     $string = trim($string);
@@ -157,7 +158,7 @@ function SecurizeString_ForSQL($string) {
     return $string;
 }
 
-// Function to get current URL, without file name
+// Fonction pour récupérer l'url de la page
 //--------------------------------------------------------------------------------
 function GetUrl() {
     $url  = @( $_SERVER["HTTPS"] != 'on' ) ? 'http://'.$_SERVER["SERVER_NAME"] :  'https://'.$_SERVER["SERVER_NAME"];
