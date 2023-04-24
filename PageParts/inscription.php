@@ -1,3 +1,12 @@
+
+<!-- Form utilisé pour l'inscription au blog. Action réalisé dans insert-inscription.php -->
+<form id="form-inscription" method="POST" action="insert-inscription.php" encrypt="multipart/form-data">
+    <div id="nom-complet">
+        <div id="inscription-prenom" class="form-element">
+            <label for="prenom">Prénom : 
+                <input id="input-prenom" name="prenom" type="text" required />
+            </label>
+
 <div id="popup-register" class="popup">
 		<button id="close-register-btn" class="close-popup" onclick='hidePopup("popup-register")'>&times;</button>
         <div class="form">

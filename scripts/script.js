@@ -90,10 +90,17 @@ function supprimerRouge(obj_id) {
     document.getElementById(obj_id).style.removeProperty("border-color");
 }
 
-
-
 //------CONNEXION----
 
+
+window.addEventListener("load", function init() {
+    document.getElementById("form-connexion").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var data = new FormData(this);
+        requeteConnexion(data);
+        return false;
+    })
+});
 
 
 window.addEventListener("load", (event) => {
