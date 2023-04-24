@@ -1,3 +1,5 @@
+//--------------INSCRIPTION----------------------
+
 window.addEventListener("load", (event) => {
     var formInscription = document.getElementById("form-inscription");
     if (formInscription) {  //S'il y a bien le formulaire dans la page
@@ -90,20 +92,7 @@ function supprimerRouge(obj_id) {
     document.getElementById(obj_id).style.removeProperty("border-color");
 }
 
-//------CONNEXION----
-
-
-window.addEventListener("load", (event) => {
-    var formConnexion = document.getElementById("form-connexion");
-    if (formConnexion) {  //S'il y a bien le formulaire dans la page
-        formConnexion.addEventListener("submit", function (e) {
-            e.preventDefault();
-            var data = new FormData(this);
-            requeteConnexion(data);
-        })
-    }
-})
-
+//--------------CONNEXION----------------------
 
 window.addEventListener("load", (event) => {
     var formConnexion = document.getElementById("form-connexion");
@@ -194,6 +183,8 @@ function verifyImgSize(maxSizeOctet, inputName) {
     return true;    //Vrai aussi quand il n'y a pas de fichier
 }
 
+//--------------PROCESS POSTS----------------------
+
 window.addEventListener("load", (event) => {
     var formNewPost = document.getElementById("form-newPost");
     if (formNewPost) {  //S'il y a bien le formulaire dans la page
@@ -251,6 +242,7 @@ function envoiPost(data) {
     xhr.send(data);
 }
 
+//--------------RECHERCHE----------------------
 
 window.addEventListener("load", (event) => {
     var formRecherche = document.getElementById("form-recherche");
@@ -285,6 +277,8 @@ function afficherRecherche(res) {
     document.getElementById("resultat-recherche").innerHTML = res;
 }
 
+//--------------COMMENTAIRES----------------------
+
 var commentaireEvent = false;
 
 function clickCommentaire(idPost) {
@@ -294,10 +288,8 @@ function clickCommentaire(idPost) {
     if (commentaireEvent == false) {
         commentaireEvent = true;
         document.getElementById("form-commentaire" + idPost).addEventListener("submit", function (e) {
-            console.log(commentaireEvent);
             e.preventDefault();
             var data = new FormData(this);
-            console.log(data);
             requeteCommentaire(data, idPost);
         })
     }

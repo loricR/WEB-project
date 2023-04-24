@@ -1,31 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Blog - connexion</title>
-        <link rel="stylesheet" href="styles/styles.css" />
-		<link rel="stylesheet" href="styles/menu.css" />
-        <link rel="stylesheet" href="styles/popup.css" />
-  	    <script type="text/javascript" src="scripts/script.js"></script>
-        <script type="text/javascript" src="scripts/popup.js"></script>
-    </head>
-<body>
 	<?php
         include_once("initialize.php");
+        include_once(__ROOT__."/PageParts/header.php");
         include_once(__ROOT__."/PageParts/menu-bar.php");
         include_once(__ROOT__."/PageParts/connexion.php");
         include_once(__ROOT__."/PageParts/inscription.php");
+        include_once("helpz/functions.php");
+        include("connexion-base.php");
 	?>
     
-</body>
-</html>
+<body>
 <?php
-include_once("initialize.php");
-include("connexion-base.php");
-include_once("helpz/functions.php");
-include_once(__ROOT__."/PageParts/header.php");
-include_once(__ROOT__."/PageParts/menu-bar.php");
-include("connexion-base.php");
 
 // Sélection de trois utilisateurs aléatoires
 $req_utilisateurs = $pdo->query("SELECT id_utilisateur FROM utilisateur ORDER BY RAND() LIMIT 3");
@@ -50,3 +36,5 @@ if (count($posts) > 0) {
     echo '<p class="warning"> Aucun post n\'existe dans le système pour l\'instant!</p>';
 }
 ?>
+</body>
+</html>
