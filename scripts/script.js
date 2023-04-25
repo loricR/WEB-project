@@ -281,7 +281,7 @@ function requeteRecherche(data) {
 
 function afficherRecherche(res) {
     document.getElementById("resultat-recherche").innerHTML = res;
-    if (document.getElementsByClassName("articles").length <= 0) { //Si aucun post n'est affiché
+    if (document.getElementsByClassName("articles").length < 10) { //Si aucun post n'est affiché
         document.getElementById("btn-encore-recherche").classList.add("hidden");
     }
     else if (document.getElementsByClassName("articles").length >= 10) {
