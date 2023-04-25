@@ -6,8 +6,9 @@ window.addEventListener("load", (event) => {
         formInscription.addEventListener("submit", function (e) {
             e.preventDefault();
             var data = new FormData(this);
-            verifyImgSize(1048576, "input-avatar");  //On vérifie que la taille de l'avatar n'est pas trop grande (ici 1Mo max)
-            requete(data);
+            if (verifyImgSize(153600, "input-avatar")) {  //On vérifie que la taille de l'avatar n'est pas trop grande (ici 150Ko max)
+                requete(data);
+            }
         })
     }
 })
@@ -171,16 +172,18 @@ function verifyImgSize(maxSizeOctet, inputName) {
     var img = document.getElementById(inputName);
     if (img.value != "") {
         if (img.files && img.files.length == 1 && img.files[0].size > maxSizeOctet) {    //Si l'image a été upload et que sa taille est supérieure à celle voulue
-            alert("Le fichier ne doit pas dépasser " + parseInt(maxSizeOctet / 1024 / 1024) + "Mo");
+            alert("Le fichier ne doit pas dépasser " + parseInt(maxSizeOctet / 1024) + "Ko");
             mettreRouge(inputName);
             return false;
         }
-        supprimerRouge(inputName);
+        else {
+            supprimerRouge(inputName);
+            return true;
+        }
     }
     else {
-        alert("Pas d'image de présentation envoyé");
+        return true;    //Vrai aussi quand il n'y a pas de fichier
     }
-    return true;    //Vrai aussi quand il n'y a pas de fichier
 }
 
 //--------------PROCESS POSTS----------------------
@@ -203,7 +206,9 @@ window.addEventListener("load", (event) => {
         formModifPost.addEventListener("submit", function (e) {
             e.preventDefault();
             var data = new FormData(this);
-            envoiPost(data);
+            if (verifyImgSize(1048576, "input-img")) {    //On vérifie que la taille de l'image n'est pas trop grande (ici 1Mo max)
+                envoiPost(data);
+            }
         })
     }
     if (formSupprPost) {    //S'il y a bien le formulaire dans la page
@@ -218,12 +223,6 @@ window.addEventListener("load", (event) => {
         })
     }
 })
-
-function envoiPostNew(data) {
-    if (verifyImgSize(1048576, "input-img")) {    //On vérifie que la taille de l'avatar n'est pas trop grande (ici 1Mo max)
-        envoiPost(data);
-    }
-}
 
 function envoiPost(data) {
     var xhr = new XMLHttpRequest();
@@ -465,5 +464,73 @@ function showHideCommentaire(res, idPost, forceShow) {
     else if (divAffichage.childElementCount > 0) {   //Si les commentaires étaient déjà affichés
         divAffichage.innerHTML = "";    //On enlève l'affichage des commentaires
         btnAfficherCommentaire.innerHTML = btnAfficherCommentaire.innerHTML.replace("Masquer", "Voir");
+    }
+}
+
+//--------------MODIF PROFIL----------------------
+
+window.addEventListener("load", (event) => {
+    var formInscription = document.getElementById("form-modif-profil");
+    if (formInscription) {  //S'il y a bien le formulaire dans la page
+        formInscription.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            if (verifyImgSize(153600, "input-img")) {   //Taille de l'avatar de 150Ko max
+                requeteProfil(data);
+            }
+        })
+    }
+})
+
+function requeteProfil(data) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = this.response;
+            modifProfil(res);
+        }
+        if (this.readyState == 4 && this.status == 404) {
+            alert("Erreur 404");
+        }
+    };
+
+    xhr.open("POST", "modifier-profil.php", true);
+    xhr.responseType = "json";
+    xhr.send(data);
+}
+
+function modifProfil(res) {
+    document.getElementById("retour-modifProfil").innerHTML = "";
+
+    if (res.pseudo !== true) {
+        mettreRouge("input-modif-pseudo");
+        ecrireRetour("retour-modifProfil", res.pseudo);
+    }
+    else {
+        supprimerRouge("input-modif-pseudo");
+    }
+    if (res.mdpOld !== true) {
+        mettreRouge("input-mdpOld");
+        ecrireRetour("retour-modifProfil", res.mdpOld);
+    }
+    else {
+        supprimerRouge("input-mdpOld");
+    }
+    if (res.mdpNew !== true) {
+        mettreRouge("input-mdpNew");
+        ecrireRetour("retour-modifProfil", res.mdpNew);
+    }
+    else {
+        supprimerRouge("input-mdpNew");
+    }
+    
+    let allValueTrue = Object.values(res).every((value) => {
+        return value === true;
+    })
+    if (allValueTrue) { //Si tout est bon
+        alert('Les modifications du profil ont été effectuées');
+        document.getElementById("retour-modifProfil").innerHTML = "";
+        location.reload();
     }
 }

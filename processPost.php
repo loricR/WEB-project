@@ -24,7 +24,7 @@ if( isset($_POST["action"])){
                 $imgDir = "images/post";
                 $infoFile = pathinfo($_FILES["imgPresentation"]["name"]);
                 $extension = $infoFile["extension"];
-                $lienImgSansExt = $imgDir . "/" . $id;
+                $lienImgSansExt = $imgDir . "/" . $id;  
                 $lienImg = $imgDir . "/" . $id . "." . $extension;    //Le nom de l'image est l'id du post pour être sûr qu'il n'y ai pas 2 fois le même nom de fichier
 
                 if($lienASuppr = glob($lienImgSansExt.".*")) {  //On cherche si un fichier a déjà le nom de l'id du post
