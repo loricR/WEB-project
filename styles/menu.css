@@ -30,6 +30,7 @@
 
 #ID_myblog a img {
     width: 15%;
+    max-width: 100px;   /*Pour être sûr que l'image rentre dans la barre de menu*/
     height: auto;
     vertical-align: middle;
     margin: -33px 0;
