@@ -14,7 +14,7 @@
 <?php
 
 // Sélection de trois utilisateurs aléatoires
-$req_utilisateurs = $pdo->query("SELECT id_utilisateur FROM utilisateur ORDER BY RAND() LIMIT 3");
+$req_utilisateurs = $pdo->query("SELECT DISTINCT utilisateur.id_utilisateur FROM utilisateur INNER JOIN post ON utilisateur.id_utilisateur = post.id_utilisateur ORDER BY RAND() LIMIT 3");
 $result_utilisateurs = $req_utilisateurs->fetchAll();
 
 // Sélection de trois posts aléatoires pour ces trois utilisateurs

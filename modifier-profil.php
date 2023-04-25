@@ -51,15 +51,23 @@ include_once("helpz/functions.php");
         // Vérifie si c'est une image
         $check = getimagesize($_FILES['avatar']['tmp_name']);
         if ($check !== false) {
-            // Créer un nom unique pour l'image et l'ajoute à la bdd
-            $filename = uniqid() . '.' . pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
-            $filepath = 'images/' . $filename;
+
+            $imgDir = "images/post";
+            $infoFile = pathinfo($_FILES["imgPresentation"]["name"]);
+            $extension = $infoFile["extension"];
+            $lienImgSansExt = $imgDir . "/" . $id;
+            $lienImg = $imgDir . "/" . $id . "." . $extension;    //Le nom de l'image est l'id du post pour être sûr qu'il n'y ai pas 2 fois le même nom de fichier
             
+            if($lienASuppr = glob($lienImgSansExt.".*")) {  //On cherche si un fichier a déjà le nom de l'id du post
+                unlink($lienASuppr[0]); //On supprime le fichier qui a le même nom
+                //echo 'Fichier supprimé : '.$lienASuppr[0].'';
+            }
+
             // Déplace l'image dans le répertoire
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $filepath)) {
+            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $lienImg)) {
                 // MAJ de la photo de profil dans la bdd
                 $stmt = $pdo->prepare('UPDATE utilisateur SET avatar = ? WHERE id_utilisateur = ?');
-                $stmt->execute([$filepath, $_SESSION['id']]);
+                $stmt->execute([$lienImg, $_SESSION['id']]);
 
             } else {
                 echo 'Une erreur est survenue lors de l\'upload de l\'image.';

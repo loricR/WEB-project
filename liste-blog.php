@@ -16,11 +16,15 @@ $result = $req->fetchAll();
 
 // Affichage des résultats
 if (count($result) > 0) {
-    echo "<ul>";
+    
     foreach ($result as $row) {
-        echo '<p>Découvrir <a href="./blog.php?userID='.$row["id_utilisateur"].'">le blog de '.$row["pseudo"].'</a></p>';
+        echo '<div class="blog-list">';
+        echo '<a href="./blog.php?userID='.$row["id_utilisateur"].'">';
+        echo '<li><p>Découvrir le blog de <strong class="jaune">'.$row["pseudo"].'</strong></p></li>';
+        echo '</a>';
+        echo '</div>';
     }
-    echo "</ul>";
+
 } else {
     echo '<p class="warning"> Aucun utilisateur/blog n\'existe dans le système pour l\'instant!</p>';
 }
