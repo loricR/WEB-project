@@ -21,26 +21,29 @@ include_once("helpz/functions.php");
     
     // Vérification de la modification du mot de passe
     if (!empty($_POST['mdp']) && !empty($_POST['nouveau_mdp']) && !empty($_POST['nouveau_mdp2'])) {
-        $mdp = md5($_POST['mdp']);
         $nouveau_mdp = $_POST['nouveau_mdp'];
         $nouveau_mdp2 = $_POST['nouveau_mdp2'];
         $id_utilisateur = $_SESSION['id'];
         //On récupère le mot de passe actuel dans la bdd
-        $query = $pdo->prepare("SELECT mdp FROM utilisateur WHERE id_utilisateur = ?");
-        $query->execute([$id_utilisateur]);
-        $result = $query->fetch();
-        $mdp_hash = $result['mdp'];
-        
+        $query = $pdo->prepare("SELECT count(nom) as mdp_count FROM utilisateur WHERE id_utilisateur = ? and mdp = PASSWORD(?)");
+        $query->execute(array($id_utilisateur, $_POST['mdp']));
+        $result = $query->fetch(); // On récupère le résultat de la requête
+        $mdp = $result['mdp_count']; 
+        //echo $mdp_hash;
+
         // Vérification de la concordance du mot de passe actuel
-        if ($mdp == $mdp_hash) {
-            
+        if ($mdp >= 1) {
             // Vérification de la concordance des nouveaux mots de passe
             if ($nouveau_mdp == $nouveau_mdp2) {
-                $query = $pdo->prepare("UPDATE utilisateur SET mdp = ? WHERE id_utilisateur = ?");
-                $query->execute([md5($result['mdp']), $id_utilisateur]);
+                // On hash le nouveau mot de passe avant de le stocker dans la base de données
+                $query = $pdo->prepare("UPDATE utilisateur SET mdp = PASSWORD(?) WHERE id_utilisateur = ?");
+                $query->execute([$nouveau_mdp, $id_utilisateur]);
+                echo "Mot de passe modifié avec succès.";
             } else {
                 echo "Les nouveaux mots de passe ne correspondent pas.";
             }
+        } else {
+            echo "Mot de passe actuel incorrect.";
         }
     }
     
