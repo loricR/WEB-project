@@ -3,41 +3,13 @@ if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe d�
 {
 	session_start();
 }
-//$existe = 'a';
-//$mail = 'a';
-//$nom = 'a';
-//$prenom = 'a';
-//$mdp = 'a';
-//$sql = 'a';
-
 
 if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && isset($_POST["nom"]) && isset($_POST["pseudo"]) && isset($_POST["mdp-confirm"]) && isset($_POST['date-naissance']))
 {
     $existe=true;
     if(!empty($_POST['email']))
     {
-        /*try
-        {
-            include("connexion-base.php");
-            $req = $pdo->prepare("SELECT count('email') AS nombre FROM utilisateur WHERE email=?");
-            $req->execute(array($_POST['email']));
-            $donnee=$req->fetch();
-            if ($donnee['nombre'] >= 1)
-            {
-                $mail="L'email existe déjà.";
-            }
-            else
-            {
-                $mail='ok';
-            }
-        }
-        catch(PDOException $e)
-        {
-	        $sql=$e;
-            $mail='Problème serveur, veuillez réessayer plus tard';
-        }*/
         $mail=true;
-
     }
     else
     {
@@ -180,9 +152,5 @@ else
     $sql='Des valeurs ne sont pas bonnes';
 }
 
-//echo date("Y", strtotime($_POST['date-naissance']));
-
 echo json_encode(array('existe' => $existe, 'mail' => $mail,'date' => $date, 'pseudo' => $pseudo, 'mdp' => $mdp, 'prenom' => $prenom, 'nom' => $nom, 'sql' => $sql));
-//echo json_encode(array('controle' => array('existe' => $existe, 'sql' => 'test'), 'formulaire' => array('mail' => $mail, 'pseudo' => $pseudo, 'mdp' => $mdp, 'prenom' => $prenom, 'nom' => $nom)));
-//echo json_encode(array('existe' => $existe, 'liste' => array(array('element'=>'mail','valeur' => $mail), array('element'=>'mdp','valeur' => $mdp))));
 ?>

@@ -1,14 +1,19 @@
 <?php
 // Fonction qui affiche les posts d'un blog
 //--------------------------------------------------------------------------------
-function DisplayBlog($blogID, $isMyBlog){
+function DisplayBlog($blogID, $isMyBlog, $nbClickLoad){
     include("connexion-base.php");
-    $req = $pdo->prepare("SELECT id_post FROM `post` WHERE `id_utilisateur` =? ORDER BY date_post DESC LIMIT 10");
-    $req->execute(array($blogID));
+    $offset = $nbClickLoad*10;
+	$req = $pdo->prepare("SELECT id_post FROM `post` WHERE `id_utilisateur` =? ORDER BY date_post DESC LIMIT 10 OFFSET ?");
+    $req->bindParam(1, $blogID, PDO::PARAM_STR);
+	$req->bindParam(2, $offset, PDO::PARAM_INT);
+	$req->execute();
 
-    if( $req->rowCount() > 0 ){
-        if ($isMyBlog){
-        ?>
+    $nbPost = $req->rowCount();
+
+    if($nbPost > 0){
+        if ($isMyBlog && $nbClickLoad <= 0){   //Si c'est mon blog et que c'est le haut de l'affichage
+?>
         <div class = creer>
         <form action="editPost.php" method="POST">
             <input type="hidden" name="newPost" value="1">
@@ -23,9 +28,8 @@ function DisplayBlog($blogID, $isMyBlog){
             DisplayPost($donnee["id_post"]);
         }
     }
-    else {
-        echo '
-        <p>Il n\'y a pas de post dans ce blog.</p>';
+    else if($nbPost <= 0 && $nbClickLoad <= 0){
+        echo '<p>Il n\'y a pas de post dans ce blog.</p>';
 
         if ($isMyBlog){
 ?>

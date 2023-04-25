@@ -59,7 +59,7 @@ if($existe===true && $login===true && $mdp===true)
 {
     $sql=true;
     include("initialize.php");
-    include(__ROOT__."/connexion-base.php");
+    include("connexion-base.php");
 	$req = $pdo->prepare("SELECT id_utilisateur FROM utilisateur WHERE pseudo=?");
     $req->execute(array($_POST['login']));
     $donnee = $req->fetch();

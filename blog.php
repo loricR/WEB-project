@@ -21,7 +21,7 @@ if ( isset($_GET["userID"]) ){
         $isMyOwnBlog = true;
         $blogOwnerName = $_SESSION["login"];
     }
-    else { 
+    else {
         include("connexion-base.php");
         $req = $pdo->prepare("SELECT `pseudo` FROM `utilisateur` WHERE `id_utilisateur` =?");
         $req->execute(array($_GET["userID"]));
@@ -30,7 +30,7 @@ if ( isset($_GET["userID"]) ){
             $blogOwnerName = $result[0]["pseudo"];
         }
     }
-    
+
     if ($blogOwnerName != ""){
         if ($isMyOwnBlog){
             echo "<h1>Ceci est mon blog à moi, ".$blogOwnerName." !</h1>";
@@ -38,8 +38,15 @@ if ( isset($_GET["userID"]) ){
         else {
             echo "<h1>Bienvenue sur le blog de ".$blogOwnerName."</h1>";
         }
+        echo '<div id="list-post">';
+        DisplayBlog($_GET["userID"], $isMyOwnBlog, 0);  //On affiche le blog de l'utilisateur qui correspond au lien
+        echo '</div>';
 
-        DisplayBlog($_GET["userID"], $isMyOwnBlog);
+        echo '<form id="form-load-blog">
+                    <input type="hidden" name="id-blog" value="'.$_GET["userID"].'" />
+                    <input type="hidden" name="isMyBlog" value="'.$isMyOwnBlog.'" />
+                  </form>';
+		echo '<div id="encore-blog"><button id="btn-encore-blog" class="hidden">Charger plus de posts</button></div>';
     }
     else {
         echo "<h1>Erreur! Cette ID ne correspond à aucun utilisateur actif!</h1>";

@@ -244,12 +244,15 @@ function envoiPost(data) {
 
 //--------------RECHERCHE----------------------
 
+var nbClick = 0;
 window.addEventListener("load", (event) => {
     var formRecherche = document.getElementById("form-recherche");
     if (formRecherche) {  //S'il y a bien le formulaire dans la page
         formRecherche.addEventListener("submit", function (e) {
+            nbClick = 0;
             e.preventDefault();
             var data = new FormData(this);
+            data.append("nbClick", nbClick);
             requeteRecherche(data);
         })
     }
@@ -261,7 +264,11 @@ function requeteRecherche(data) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var res = this.response;
-            afficherRecherche(res);
+            if (nbClick <= 0) {
+                afficherRecherche(res);
+            } else {
+                appendRecherche(res);
+            }
         }
         if (this.readyState == 4 && this.status == 404) {
             alert("Erreur 404");
@@ -275,6 +282,86 @@ function requeteRecherche(data) {
 
 function afficherRecherche(res) {
     document.getElementById("resultat-recherche").innerHTML = res;
+    if (document.getElementsByClassName("articles").length <= 0) { //Si aucun post n'est affiché
+        document.getElementById("btn-encore-recherche").classList.add("hidden");
+    }
+    else if (document.getElementsByClassName("articles").length >= 10) {
+        document.getElementById("btn-encore-recherche").classList.remove("hidden");
+    }
+}
+
+function appendRecherche(res) {
+    document.getElementById("resultat-recherche").innerHTML += res;
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(res, 'text/html'); //On converti le text reçu en html
+    if (!res || doc.getElementsByClassName("articles").length < 10) { //Si rien n'est à afficher ou qu'il y a moins de 10 posts
+        document.getElementById("btn-encore-recherche").classList.add("hidden");
+    }
+}
+
+window.addEventListener("load", (event) => {
+    var btnEncore = document.getElementById("btn-encore-recherche");
+    if (btnEncore) {  //S'il y a bien le formulaire dans la page
+        btnEncore.addEventListener("click", function (e) {
+            e.preventDefault();
+            nbClick++;  //La prochaine fois ça sera pour charger encore plus de post
+            var data = new FormData(document.getElementById("form-recherche")); //On récupère les infos qu'il y a toujours dans le formulaire de recherche
+            data.append("nbClick", nbClick);
+            requeteRecherche(data);
+        })
+    }
+})
+
+//--------------BLOG----------------------
+
+var nbClickBlog = 0;
+window.addEventListener("load", (event) => {
+    var btnEncore = document.getElementById("btn-encore-blog");
+    if (btnEncore) {  //S'il y a bien le formulaire dans la page
+        if (document.getElementsByClassName("articles").length <= 0) { //Si aucun post n'est affiché
+            document.getElementById("btn-encore-blog").classList.add("hidden");
+        }
+        else if (document.getElementsByClassName("articles").length >= 10) {
+            document.getElementById("btn-encore-blog").classList.remove("hidden");
+        }
+        btnEncore.addEventListener("click", function (e) {
+            e.preventDefault();
+            nbClickBlog++;  //La prochaine fois ça sera pour charger encore plus de post
+            var data = new FormData(document.getElementById("form-load-blog")); //On récupère les infos qu'il y a toujours dans le formulaire de recherche
+            data.append("nbClick", nbClickBlog);
+            requeteLoadMoreBlog(data);
+        })
+    }
+})
+
+function requeteLoadMoreBlog(data) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var res = this.response;
+            afficheMoreBlog(res);
+        }
+        if (this.readyState == 4 && this.status == 404) {
+            alert("Erreur 404");
+        }
+    };
+
+    xhr.open("POST", "charger-plus-blog.php", true);
+    xhr.responseType = "text";
+    xhr.send(data);
+}
+
+function afficheMoreBlog(res) {
+    document.getElementById("list-post").innerHTML += res;
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(res, 'text/html'); //On converti le text reçu en html
+    if (!res || doc.getElementsByClassName("articles").length < 10) { //Si rien n'est à afficher ou moins de 10 posts
+        document.getElementById("btn-encore-blog").classList.add("hidden");
+    }
+    else {
+        document.getElementById("btn-encore-blog").classList.remove("hidden");
+    }
 }
 
 //--------------COMMENTAIRES----------------------
