@@ -25,3 +25,6 @@ Bonus :
 	- Fonctionnalité de recherche qui permet d'effectuer des recherches par pseudo, par titre, ou en combinant les deux !
 
 	- Limitation de la taille des images qui peuvent être upload à l'aide d'AJAX.
+
+	- Retour d'informations sur les champs non valide lors de la connexion et de l'inscription (AJAX).
+
