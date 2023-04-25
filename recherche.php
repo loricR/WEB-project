@@ -1,5 +1,5 @@
 <?php
-	if(session_status() != PHP_SESSION_ACTIVE)  //On vérifie si la session existe déjà
+	if(session_status() != PHP_SESSION_ACTIVE)  //On vÃ©rifie si la session existe dÃ©jÃ 
 	{
 		session_start();
 	}
@@ -29,4 +29,5 @@
 		<input type="submit" value="Rechercher" />
 	</form>
 	<div id="resultat-recherche"></div>
+	<div id="encore-recherche"><button id="btn-encore-recherche"class="hidden">Charger plus de rÃ©sultats</button></div>
 </div>

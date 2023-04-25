@@ -244,12 +244,15 @@ function envoiPost(data) {
 
 //--------------RECHERCHE----------------------
 
+var nbClick = 0;
 window.addEventListener("load", (event) => {
     var formRecherche = document.getElementById("form-recherche");
     if (formRecherche) {  //S'il y a bien le formulaire dans la page
         formRecherche.addEventListener("submit", function (e) {
+            nbClick = 0;
             e.preventDefault();
             var data = new FormData(this);
+            data.append("nbClick", nbClick);
             requeteRecherche(data);
         })
     }
@@ -261,7 +264,11 @@ function requeteRecherche(data) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var res = this.response;
-            afficherRecherche(res);
+            if (nbClick <= 0) {
+                afficherRecherche(res);
+            } else {
+                appendRecherche(res);
+            }
         }
         if (this.readyState == 4 && this.status == 404) {
             alert("Erreur 404");
@@ -275,7 +282,33 @@ function requeteRecherche(data) {
 
 function afficherRecherche(res) {
     document.getElementById("resultat-recherche").innerHTML = res;
+    if (document.getElementsByClassName("articles").length <= 0) { //Si aucun post n'est affiché
+        document.getElementById("btn-encore-recherche").classList.add("hidden");
+    }
+    else if (document.getElementsByClassName("articles").length >= 10) {
+        document.getElementById("btn-encore-recherche").classList.remove("hidden");
+    }
 }
+
+function appendRecherche(res) {
+    document.getElementById("resultat-recherche").innerHTML += res;
+    if (!res) { //Si rien n'est à afficher
+        document.getElementById("btn-encore-recherche").classList.add("hidden");
+    }
+}
+
+window.addEventListener("load", (event) => {
+    var btnEncore = document.getElementById("btn-encore-recherche");
+    if (btnEncore) {  //S'il y a bien le formulaire dans la page
+        btnEncore.addEventListener("click", function (e) {
+            e.preventDefault();
+            nbClick++;  //La prochaine fois ça sera pour charger encore plus de post
+            var data = new FormData(document.getElementById("form-recherche")); //On récupère les infos qu'il y a toujours dans le formulaire de recherche
+            data.append("nbClick", nbClick);
+            requeteRecherche(data);
+        })
+    }
+})
 
 //--------------COMMENTAIRES----------------------
 
