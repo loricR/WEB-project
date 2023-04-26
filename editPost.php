@@ -10,11 +10,11 @@ if ( isset($_POST["newPost"]) && $_POST["newPost"] == 1 ){
 ?>
 
     <form id="form-newPost" action="./processPost.php" method="POST" encrypt="multipart/form-data">
-        <div class="formbutton">Création d'un nouveau post</div>
+        <h1>Création d'un nouveau post</h1>
 		<div>
-            <input type="hidden" name="action" value="new">
+            <input type="hidden" name="action" value="new"/>
             <label for="titre">Titre :</label>
-            <input autofocus type="text" name="titre">
+			<input class="input-text" autofocus type="text" name="titre" />
         </div>
         <div>
             <label for="imgPresentation">Image de présentation :</label>
@@ -25,7 +25,7 @@ if ( isset($_POST["newPost"]) && $_POST["newPost"] == 1 ){
             <textarea name="contenu" placeholder="Tapez votre texte ici..."></textarea>
         </div>
         <div class="formbutton">
-            <input type="submit" value="Ajouter ce post à mon blog" />
+            <input type="submit" class="submit-form" value="Ajouter ce post à mon blog" />
         </div>
     </form>
 
@@ -45,12 +45,12 @@ elseif ( isset($_GET["postID"]) ){
 ?>
 
         <form id="form-editPost" action="./processPost.php" method="POST" encrypt="multipart/form-data">
-            <div class="formbutton">Modification d'un post passé</div>
+            <h1>Modification d'un post passé</h1>
             <div>
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="postID" value="<?php echo $data["id_post"];?>">
                 <label for="titre">Titre :</label>
-                <input autofocus type="text" name="titre" value="<?php echo $data["titre"];?>">
+                <input class="input-text" autofocus type="text" name="titre" value="<?php echo $data["titre"];?>">
             </div>
 			<div>
 				<label for="imgPresentation">Image de présentation :</label>
@@ -61,7 +61,7 @@ elseif ( isset($_GET["postID"]) ){
                 <textarea name="contenu"><?php echo $data["contenu"];?></textarea>
             </div>
             <div class="formbutton">
-                <input type="submit" value="Modifier le post" />
+                <input type="submit" class="submit-form" value="Modifier le post" />
             </div>
         </form>
         <form id="form-supprPost" action="./processPost.php" method="POST">
@@ -71,7 +71,7 @@ elseif ( isset($_GET["postID"]) ){
                 <input type="hidden" name="postID" value="<?php echo $data["id_post"];?>">
             </div>
             <div class="formbutton">
-                <input type="submit" value="Supprimer le post" />
+				<input type="submit" class="submit-form" value="Supprimer le post" />
             </div>
         </form>
 

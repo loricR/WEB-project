@@ -194,7 +194,9 @@ window.addEventListener("load", (event) => {
         formNewPost.addEventListener("submit", function (e) {
             e.preventDefault();
             var data = new FormData(this);
-            envoiPostNew(data);
+            if (verifyImgSize(1048576, "input-img")) {    //On vérifie que la taille de l'image n'est pas trop grande (ici 1Mo max)
+                envoiPost(data);
+            }
         })
     }
 })
@@ -427,7 +429,7 @@ function resultatCommentaire(res, idPost, forceShow) {
         }
     }
     else {
-        alert("Une erreur est surevenue");
+        alert("Une erreur est survenue");
     }
 }
 
