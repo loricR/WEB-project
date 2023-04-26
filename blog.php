@@ -17,7 +17,7 @@ $isMyOwnBlog = false;
 if ( isset($_GET["userID"]) ){
 
     //On vérifie si l'utilisateur connecté est le propriétaire du blog
-    if ( isset($_GET["userID"]) && $_GET["userID"] == $_SESSION["id"] ){
+    if ( isset($_GET["userID"]) && isset($_SESSION["id"]) && $_GET["userID"] == $_SESSION["id"] ){
         $isMyOwnBlog = true;
         $blogOwnerName = $_SESSION["login"];
     }
@@ -49,7 +49,7 @@ if ( isset($_GET["userID"]) ){
                     <input type="hidden" name="isMyBlog" value="'.$isMyOwnBlog.'" />
                   </form>';
         //Charger plus de posts si nécessaire
-		echo '<div id="encore-blog"><button id="btn-encore-blog" class="hidden">Charger plus de posts</button></div>';
+		echo '<div id="encore-blog" class="charger-plus"><button id="btn-encore-blog" class="hidden">Charger plus de posts</button></div>';
     }
     else {
         echo "<h1>Erreur! Cette ID ne correspond à aucun utilisateur actif!</h1>";

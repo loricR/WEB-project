@@ -8,47 +8,47 @@
                     <div id="nom-complet">
                         <div id="inscription-prenom" class="form-element">
                             <label for="prenom">Prénom : 
-                                <input id="input-prenom" name="prenom" type="text" required />
+                                <input id="input-prenom" class="input-inscription" name="prenom" type="text" required />
                             </label>
                         </div>
                         <div id="inscription-nom" class="form-element">
                             <label for="nom">Nom : 
-                                <input id="input-nom" name="nom" type="text" required />
+                                <input id="input-nom" class="input-inscription" name="nom" type="text" required />
                             </label>
                         </div>
                     </div>
                     <div class="form-element">
                         <label for="avatar">Avatar : 
-                            <input id="input-avatar" name="avatar" type="file" accept="image/*"/>
+                            <input id="input-avatar" class="input-inscription" name="avatar" type="file" accept="image/*"/>
                         </label>
                     </div>
                     <div class="form-element">
                         <label for="email">Email : 
-                            <input id="input-inscription-email" name="email" type="email" required />
+                            <input id="input-inscription-email" class="input-inscription" name="email" type="email" required />
                         </label>
                     </div>
                     <div class="form-element">
                         <label for="date-naissance">Date de naissance : 
-                            <input id="input-inscription-date" name="date-naissance" type="date" required />
+                            <input id="input-inscription-date" class="input-inscription" name="date-naissance" type="date" required />
                         </label>
                     </div>
                     <div class="form-element">
                         <label for="pseudo">Pseudo : 
-                            <input id="input-inscription-pseudo" name="pseudo" type="text" required />
+                            <input id="input-inscription-pseudo" class="input-inscription" name="pseudo" type="text" required />
                         </label>
                     </div>
                     <div class="form-element">
                         <label for="mdp">Mot de passe : 
-                            <input id="input-inscription-mdp" name="mdp" type="password" required />
+                            <input id="input-inscription-mdp" class="input-inscription" name="mdp" type="password" required />
                         </label>
                     </div>
                     <div class="form-element">
                         <label for="mdp-confirm">Confirmation du mot de passe : 
-                            <input id="input-inscription-mdp-confirm" name="mdp-confirm" type="password" required />
+                            <input id="input-inscription-mdp-confirm" class="input-inscription" name="mdp-confirm" type="password" required />
                         </label>
                     </div>
                     <div class="form-element">
-                        <input type="submit" value="Inscription" />
+                        <input type="submit" class="input-inscription" value="Inscription" />
                     </div>
                 </form>
                 <div><ul id="retour-inscription"></ul></div>

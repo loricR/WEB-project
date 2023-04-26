@@ -90,29 +90,29 @@ function DisplayPost($id_post){
 		}
 		if($resultCount["nbCommentaire"] === 1)
 		{
-            echo '<button id="btn-affiche-commentaire'.$id_post.'" onclick="commentaire('.$id_post.')">Voir le commentaire</button>';
+            echo '<button id="btn-affiche-commentaire'.$id_post.'" class="btn-voir-commentaire" onclick="commentaire('.$id_post.')">Voir le commentaire</button>';
 		}
 		else if($resultCount["nbCommentaire"] > 1)
 		{
-            echo '<button id="btn-affiche-commentaire'.$id_post.'" onclick="commentaire('.$id_post.')">Voir les '.$resultCount["nbCommentaire"].' commentaires</button>';
+            echo '<button id="btn-affiche-commentaire'.$id_post.'" class="btn-voir-commentaire" onclick="commentaire('.$id_post.')">Voir les '.$resultCount["nbCommentaire"].' commentaires</button>';
 		}
         else
 		{
-            echo '<button id="btn-affiche-commentaire'.$id_post.'" onclick="commentaire('.$id_post.')">Pas encore de commentaire</button>';
+            echo '<button id="btn-affiche-commentaire'.$id_post.'" class="btn-voir-commentaire" onclick="commentaire('.$id_post.')">Pas encore de commentaire</button>';
 		}
         echo '<div id="affichage-commentaire'.$id_post.'"></div>'; //Pour afficher les commentaires en javascript
 
-        if(!$isMyPost)    //Si c'est pas le post de l'utilisateur connecté
+        if(!$isMyPost && isset($_SESSION["id"]))    //Si c'est pas le post de l'utilisateur connecté
 	    {
             echo '<div id="commentaire'.$id_post.'" class="hidden">
                     <form id="form-commentaire'.$id_post.'" action"commenter.php" method="POST">
                         <label for="commentaire">Votre commentaire :</label>
                         <textarea id="text-commentaire'.$id_post.'" name="commentaire" placeholder="Tapez votre commentaire ici..."></textarea>
                         <input type="hidden" name="id_post" value="'.$id_post.'">
-                        <input type="submit" value="Envoyer" />
+                        <input class="submit-form" type="submit" value="Envoyer" />
                     </form>
                 </div>';
-            echo '<button id="btn-commenter'.$id_post.'" onclick="clickCommentaire('.$id_post.')">Commenter</button>';
+            echo '<button id="btn-commenter'.$id_post.'" class="btn-commenter" onclick="clickCommentaire('.$id_post.')">Commenter</button>';
             echo '<button id="annuler-commenter'.$id_post.'" class="hidden" onclick="clickAnnulerCommenter('.$id_post.')">Annuler</button>';
 		}
           echo '</div>

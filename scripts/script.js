@@ -429,7 +429,7 @@ function resultatCommentaire(res, idPost, forceShow) {
         }
     }
     else {
-        alert("Une erreur est surevenue");
+        alert("Une erreur est survenue");
     }
 }
 

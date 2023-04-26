@@ -19,16 +19,18 @@
 
 <div id="recherche-page">
 	<form id="form-recherche" method="POST" action="execRecherche.php">
-		<label for="pseudo">
-			Utilisateur :
-			<input id="recherche-pseudo" class="input-recherche" name="pseudo" type="text" />
-		</label>
-		<label for="titre">
+		<label id="recherche-titre-block" for="titre">
 			Titre :
-			<input id="recherche-titre" class="input-recherche" name="titre" type="text" />
+			<input id="recherche-titre" class="input-recherche input-text" name="titre" type="text" />
 		</label>
-		<input type="submit" value="Rechercher" />
+		<label id="recherche-pseudo-block" for="pseudo">
+			Utilisateur :
+			<input id="recherche-pseudo" class="input-recherche input-text" name="pseudo" type="text" />
+		</label>
+		<input type="submit" class="submit-form" value="Rechercher" />
 	</form>
 	<div id="resultat-recherche"></div>
-	<div id="encore-recherche"><button id="btn-encore-recherche"class="hidden">Charger plus de résultats</button></div>
+	<div id="encore-recherche" class="charger-plus">
+		<button id="btn-encore-recherche"class="hidden">Charger plus de résultats</button>
+	</div>
 </div>
