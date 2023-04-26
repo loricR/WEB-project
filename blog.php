@@ -10,19 +10,20 @@ include_once("helpz/functions.php");
 include_once(__ROOT__."/PageParts/header.php");
 include_once(__ROOT__."/PageParts/menu-bar.php");
 
-//$login = CheckLogin();
-//Try to get user for ID used as GET parameter
 $blogOwnerName = "";
 $isMyOwnBlog = false;
 
+//On vérifie si l'utilisateur est connecté
 if ( isset($_GET["userID"]) ){
 
+    //On vérifie si l'utilisateur connecté est le propriétaire du blog
     if ( isset($_GET["userID"]) && $_GET["userID"] == $_SESSION["id"] ){
         $isMyOwnBlog = true;
         $blogOwnerName = $_SESSION["login"];
     }
     else {
         include("connexion-base.php");
+        //On récupère le pseudo du propriétaire du blog
         $req = $pdo->prepare("SELECT `pseudo` FROM `utilisateur` WHERE `id_utilisateur` =?");
         $req->execute(array($_GET["userID"]));
         $result = $req->fetchAll();
@@ -33,11 +34,12 @@ if ( isset($_GET["userID"]) ){
 
     if ($blogOwnerName != ""){
         if ($isMyOwnBlog){
-            echo "<h1>Ceci est mon blog à moi, ".$blogOwnerName." !</h1>";
+            echo "<h1>Bienvenue sur votre blog, ".$blogOwnerName."</h1>";
         }
         else {
             echo "<h1>Bienvenue sur le blog de ".$blogOwnerName."</h1>";
         }
+        //Affichage du blog
         echo '<div id="list-post">';
         DisplayBlog($_GET["userID"], $isMyOwnBlog, 0);  //On affiche le blog de l'utilisateur qui correspond au lien
         echo '</div>';
@@ -46,6 +48,7 @@ if ( isset($_GET["userID"]) ){
                     <input type="hidden" name="id-blog" value="'.$_GET["userID"].'" />
                     <input type="hidden" name="isMyBlog" value="'.$isMyOwnBlog.'" />
                   </form>';
+        //Charger plus de posts si nécessaire
 		echo '<div id="encore-blog"><button id="btn-encore-blog" class="hidden">Charger plus de posts</button></div>';
     }
     else {

@@ -1,15 +1,16 @@
 <?php
+//On effectue une recherche de posts
 if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déjà
 {
 	session_start();
 }
 include_once("helpz/functions.php");
-
+//On vérifie qu'il y a une donnée entrée dans le champ de recherche
 if(isset($_POST["pseudo"]) && isset($_POST["titre"]) && isset($_POST["nbClick"]))
 {
 	$nbAfficheOnce = 10;
 	$offset = $_POST["nbClick"]*$nbAfficheOnce;
-
+	//Récupère les 10 premiers posts correspondant à la recherche
 	if($_POST["nbClick"] <= 0)
 	{
 		try
@@ -50,6 +51,7 @@ if(isset($_POST["pseudo"]) && isset($_POST["titre"]) && isset($_POST["nbClick"])
 			echo $e;
 		}
 	}
+	//Récupère les 10 posts suivants correspondant à la recherche
 	else
 	{
 		try

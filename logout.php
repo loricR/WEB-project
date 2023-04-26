@@ -1,5 +1,6 @@
 <?php
-if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déjà
+//Deconnexion de l'utilisateur
+if(session_status() != PHP_SESSION_ACTIVE)	//On vÃ©rifie si la session existe dÃ©jÃ 
 {
 	session_start();
 }
@@ -17,10 +18,11 @@ if(isset($_SESSION["id"]))
 
 if(!isset($_SESSION["login"]) && !isset($_SESSION["id"]))
 {
+	//Redirection
 	header("Location:".GetURL()."/index.php");
 }
 else
 {
-	echo "Les variables de session n'ont pas été supprimé correctement.";
+	echo "Les variables de session n'ont pas Ã©tÃ© supprimÃ© correctement.";
 }
 ?>

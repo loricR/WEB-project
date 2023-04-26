@@ -5,8 +5,7 @@ include_once(__ROOT__."/helpz/functions.php");
 include_once(__ROOT__."/PageParts/header.php");
 include_once(__ROOT__."/PageParts/menu-bar.php");
 
-
-
+//Création d'un poste
 if ( isset($_POST["newPost"]) && $_POST["newPost"] == 1 ){
 ?>
 
@@ -32,7 +31,7 @@ if ( isset($_POST["newPost"]) && $_POST["newPost"] == 1 ){
 
 <?php
 }
-//Otherwise, we are in "edit" mode. Then, try to get post for ID used as GET parameter
+//Sinon, on est en mode "edit". On essaie de récupérer le post pour l'ID utilisé en paramètre GET
 elseif ( isset($_GET["postID"]) ){
 
     include("connexion-base.php");

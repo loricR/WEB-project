@@ -1,4 +1,5 @@
 <?php
+//Ajout d'un commentaire sous un post
 if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déjà
 {
 	session_start();

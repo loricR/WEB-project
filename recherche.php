@@ -1,4 +1,5 @@
 <?php
+//Form utilisé pour rechercher un post par titre ou par utilisateur
 	if(session_status() != PHP_SESSION_ACTIVE)  //On vérifie si la session existe déjà
 	{
 		session_start();
