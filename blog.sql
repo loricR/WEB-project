@@ -12,7 +12,6 @@ CREATE TABLE utilisateur (
   pseudo varchar(20) NOT NULL,
   mdp varchar(50) NOT NULL,
   avatar varchar(100) DEFAULT "images/avatar/default.png",
-  administrateur boolean NOT NULL,
   UNIQUE (pseudo)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -23,7 +22,6 @@ CREATE TABLE post (
   contenu varchar(10000) NOT NULL,
   imgPresentation varchar(100) DEFAULT "images/post/default.png",
   date_post timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  visible boolean NOT NULL,
 
   FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id_utilisateur)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

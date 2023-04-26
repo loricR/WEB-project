@@ -1,4 +1,5 @@
 <?php
+//Affichage de posts supplémentaire pour un blog
 include_once("helpz/functions.php");
 
 if(isset($_POST["id-blog"]) && isset($_POST["isMyBlog"]) && isset($_POST["nbClick"]))

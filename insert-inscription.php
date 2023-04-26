@@ -1,9 +1,12 @@
 <?php
+//L'objectif est d'ajouter l'utilisateur qui vient de s'inscrire dans la base de données
+//On vérifie si la session existe déjà
 if(session_status() != PHP_SESSION_ACTIVE)	//On vérifie si la session existe déjà
 {
 	session_start();
 }
 
+//On vérifie qu'il y a une donnée entrée dans le champ de recherche
 if(isset($_POST['email']) && isset($_POST['mdp']) && isset($_POST["prenom"]) && isset($_POST["nom"]) && isset($_POST["pseudo"]) && isset($_POST["mdp-confirm"]) && isset($_POST['date-naissance']))
 {
     $existe=true;
@@ -117,10 +120,11 @@ if($existe===true && $mail===true && $date===true && $mdp===true && $prenom===tr
     try
     {
         include("connexion-base.php");
-
+        //Ajout du nouvel utilisateur dans la table
         $req = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, pseudo, mdp) VALUES (?,?,?,?,PASSWORD(?))");
         $req->execute(array($_POST["prenom"],$_POST["nom"],$_POST["email"],$_POST["pseudo"],$_POST["mdp"]));
 
+        //On récupère l'id de ce nouvel utilisateur
         $req = $pdo->prepare("SELECT id_utilisateur FROM utilisateur WHERE pseudo=?");
         $req->execute(array($_POST['pseudo']));
         $donnee = $req->fetch();
@@ -130,6 +134,7 @@ if($existe===true && $mail===true && $date===true && $mdp===true && $prenom===tr
         setcookie("login", $_SESSION["login"], time() + 24*3600); //cookies enregistrés pour 24h
         setcookie("id", $_SESSION['id'], time() + 24*3600); //cookies enregistrés pour 24h"])
 
+        //On vérifie si l'utilisateur a uploadé un avatar, Si oui, on l'upload dans le dossier avatar et on met le lien dans la bdd   
         if(isset($_FILES["avatar"]["name"]) && !empty($_FILES["avatar"]["name"]))
         {
             $avatarDir = "images/avatar";

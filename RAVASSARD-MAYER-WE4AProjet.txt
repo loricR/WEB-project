@@ -28,3 +28,20 @@ Bonus :
 
 	- Retour d'informations sur les champs non valide lors de la connexion et de l'inscription (AJAX).
 
+
+Profil : 
+
+Pseudo : 
+mdp : 
+
+Pseudo : 
+mdp : 
+
+Pseudo : 
+mdp : 
+
+Pseudo : 
+mdp : 
+
+Pseudo : 
+mdp : 

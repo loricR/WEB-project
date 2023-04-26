@@ -1,3 +1,4 @@
+<!-- Form utilisé pour se connecter au blog. Action réalisé dans login.php -->
 <div id="popup-login" class="popup">
 		<button id="close-login-btn" class="close-popup" onclick='hidePopup("popup-login")'>&times;</button>
         <div class="form">

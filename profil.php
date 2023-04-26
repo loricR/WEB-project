@@ -1,5 +1,5 @@
 <?php
-
+//Form utilisé pour modifier le profil de l'utilisateur : pseudo, mdp et avatar
 include_once("initialize.php");
 include("connexion-base.php");
 include_once("helpz/functions.php");
