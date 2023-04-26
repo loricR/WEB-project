@@ -21,10 +21,11 @@ if(isset($_POST["idPost"]))
 			echo '<p>Aucun post ne correspond à la recherche</p>';
 		}
 
+		$reqUser = $pdo->prepare("SELECT utilisateur.pseudo FROM commentaire INNER JOIN utilisateur ON utilisateur.id_utilisateur = commentaire.id_utilisateur WHERE id_post=?");
+		$reqUser->execute(array($_POST["idPost"]));
+
 		while($donnee=$req->fetch())	//On affiche les commentaires ligne par ligne
 		{
-			$reqUser = $pdo->prepare("SELECT utilisateur.pseudo FROM commentaire INNER JOIN utilisateur ON utilisateur.id_utilisateur = commentaire.id_utilisateur WHERE id_post=?");
-			$reqUser->execute(array($_POST["idPost"]));
 			$utilisateur=$reqUser->fetch();
 
 			$timestamp = strtotime($donnee["date_commentaire"]);
