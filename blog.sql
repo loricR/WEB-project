@@ -1,11 +1,11 @@
-DROP DATABASE IF EXISTS blog;
+DROP DATABASE IF EXISTS rav_may_fan2jeu;
 
-CREATE DATABASE IF NOT EXISTS blog DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE blog;
+CREATE DATABASE IF NOT EXISTS rav_may_fan2jeu DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE rav_may_fan2jeu;
 
 CREATE TABLE utilisateur (
   id_utilisateur int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  date_naissance date NOT NULL,
+  date_naissance date NOT NULL  ,
   nom varchar(20) NOT NULL,
   prenom varchar(15) NOT NULL,
   email varchar(30) NOT NULL,
@@ -36,6 +36,3 @@ CREATE TABLE commentaire (
   FOREIGN KEY (id_utilisateur) REFERENCES utilisateur (id_utilisateur),
   FOREIGN KEY (id_post) REFERENCES post (id_post) ON DELETE CASCADE /*Supprime les commentaires quand un post est supprimé*/
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-INSERT INTO `utilisateur` (`id_utilisateur`, `date_naissance`, `nom`, `prenom`, `email`, `pseudo`, `mdp`, `avatar`, `administrateur`) VALUES
-(1, '2023-04-11', 'efz', 'zef', 'a@azd', 'loric', '*93623BE70862E3B70A2D9AEB646DE4C9FA2E1449', 'images/avatar/default.png', 0);
