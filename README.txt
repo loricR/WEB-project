@@ -12,7 +12,7 @@ Version de PHP : 8.2.0
 Pour pouvoir utiliser la base de donnée il vous faudra changer le nom d'utilisateur et le mot de passe dans le fichier "connexion-base.php".
 Le nom d'utilisateur de la base de donnée est actuellement "root" sans mot de passe.
 
-Vérifiez bien que le javascript est activé sur votre navigateur pour le bon fonctionnement de celui-ci.
+Veuillez vérifier que le javascript est activé sur votre navigateur pour le bon fonctionnement de celui-ci.
 
 Bonus :
 
