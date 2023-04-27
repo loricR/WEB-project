@@ -113,11 +113,11 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `date_naissance`, `nom`, `prenom`, `email`, `pseudo`, `mdp`, `avatar`) VALUES
-(1, '0000-00-00', 'Boy', 'Minecraft', 'minecraft.boy@gmail.com', 'MinecraftBoy2013', '*6665C221D097110B3BCF38EFC24E383308479FD3', 'images/avatar/1.png'),
-(2, '0000-00-00', 'LFS', 'GB', 'gb.lfs@gmail.com', 'GBLFS', '*0D3AC9757794504F14442BF1E88F76CA4423C983', 'images/avatar/2.jpg'),
-(3, '0000-00-00', 'terz', 'Ha', 'ha.tez@gmail.com', 'Haterz', '*FDE0E6CA7051F0896E0155CD1915592C360D6943', 'images/avatar/default.png'),
-(4, '0000-00-00', 'Man', 'Pac', 'Pac.man@gmail.com', 'PacMaNFAN', '*70E2BA5C1FA90FD40FCD62B1426E5B7C19D6B3AF', 'images/avatar/4.jpg'),
-(5, '0000-00-00', 'elephant', 'Fanny', 'fanny.elephant@gmail.com', 'Fanny♥', '*C2BC95191EC66EA745AC994A92EC3175AE2C811B', 'images/avatar/5.png');
+(1, '2013-03-15', 'Boy', 'Minecraft', 'minecraft.boy@gmail.com', 'MinecraftBoy2013', '*6665C221D097110B3BCF38EFC24E383308479FD3', 'images/avatar/1.png'),
+(2, '1996-05-07', 'LFS', 'GB', 'gb.lfs@gmail.com', 'GBLFS', '*0D3AC9757794504F14442BF1E88F76CA4423C983', 'images/avatar/2.jpg'),
+(3, '1950-01-01', 'terz', 'Ha', 'ha.tez@gmail.com', 'Haterz', '*FDE0E6CA7051F0896E0155CD1915592C360D6943', 'images/avatar/default.png'),
+(4, '1980-07-19', 'Man', 'Pac', 'Pac.man@gmail.com', 'PacMaNFAN', '*70E2BA5C1FA90FD40FCD62B1426E5B7C19D6B3AF', 'images/avatar/4.jpg'),
+(5, '1998-10-01', 'elephant', 'Fanny', 'fanny.elephant@gmail.com', 'Fanny♥', '*C2BC95191EC66EA745AC994A92EC3175AE2C811B', 'images/avatar/5.png');
 
 --
 -- Index pour les tables déchargées
@@ -175,7 +175,7 @@ ALTER TABLE `utilisateur`
 -- Contraintes pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
-  ADD CONSTRAINT `commentaire_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`),
+  ADD CONSTRAINT `commentaire_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE,
   ADD CONSTRAINT `commentaire_ibfk_2` FOREIGN KEY (`id_post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE;
 
 --

@@ -29,7 +29,7 @@ Bonus :
 	(au vu du nombre de posts dans la base de données, pour tester cette fonctionnalité vous pouvez aller dans l'onglet 
 	recherche en n'appliquant aucun critère ou aller sur le blog de MinecraftBoy2013) 
 
-	- Fonctionnalité de recherche qui permet d'effectuer des recherches par pseudo, par titre, ou en combinant les deux !
+	- Fonctionnalité de recherche qui permet d'effectuer des recherches par pseudo, par titre, ou en combinant les deux qui est insensible à la casse !
 
 	- Limitation de la taille des images qui peuvent être upload à l'aide de Javascript.
 

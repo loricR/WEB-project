@@ -73,7 +73,7 @@ function DisplayPost($id_post){
 
                 <div class="right">
                     <p class="date">dernière modification le '.date("d/m/y à H:i:s", $timestamp).'
-                    <h3 class = "title">•'.$donnee["titre"].'</h3>
+                    <h3 class = "title">'.$donnee["titre"].'</h3>
                     <p class="contenu">'.$donnee["contenu"].'</p>
 
                     <div class="auteur">par '.$utilisateur["pseudo"].'</div>   <!-- selection d une valeur spécifique du tableau -->';
