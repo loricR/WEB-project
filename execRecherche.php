@@ -21,8 +21,8 @@ if(isset($_POST["pseudo"]) && isset($_POST["titre"]) && isset($_POST["nbClick"])
 			//$req = $pdo->prepare("SELECT post.id_post, utilisateur.pseudo AS pseudoPost FROM post INNER JOIN utilisateur ON utilisateur.id_utilisateur = post.id_utilisateur WHERE pseudo LIKE ? AND titre LIKE ?");
 			//$req->execute(array("%".$_POST["pseudo"]."%", "%".$_POST["titre"]."%"));
 
-			$req = $pdo->prepare("SELECT post.id_post FROM post INNER JOIN utilisateur ON utilisateur.id_utilisateur = post.id_utilisateur WHERE pseudo LIKE \"%\"?\"%\" AND titre LIKE \"%\"?\"%\"");
-			$req->execute(array("%".$_POST["pseudo"]."%", "%".$_POST["titre"]."%"));
+			$req = $pdo->prepare("SELECT post.id_post FROM post INNER JOIN utilisateur ON utilisateur.id_utilisateur = post.id_utilisateur WHERE UPPER(pseudo) LIKE \"%\"?\"%\" AND UPPER(titre) LIKE \"%\"?\"%\"");
+			$req->execute(array(strtoupper($_POST["pseudo"]), strtoupper($_POST["titre"])));	//Conversion en majuscule pour que la recherche fonctionne sans prendre en compte les majuscules
 			$req->execute();
 
 			$nbResult = $req->rowCount();

@@ -121,8 +121,8 @@ if($existe===true && $mail===true && $date===true && $mdp===true && $prenom===tr
     {
         include("connexion-base.php");
         //Ajout du nouvel utilisateur dans la table
-        $req = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, pseudo, mdp) VALUES (?,?,?,?,PASSWORD(?))");
-        $req->execute(array($_POST["prenom"],$_POST["nom"],$_POST["email"],$_POST["pseudo"],$_POST["mdp"]));
+        $req = $pdo->prepare("INSERT INTO utilisateur (prenom, nom, email, pseudo, mdp, date_naissance) VALUES (?,?,?,?,PASSWORD(?),?)");
+        $req->execute(array($_POST["prenom"],$_POST["nom"],$_POST["email"],$_POST["pseudo"],$_POST["mdp"], $_POST["date-naissance"]));
 
         //On récupère l'id de ce nouvel utilisateur
         $req = $pdo->prepare("SELECT id_utilisateur FROM utilisateur WHERE pseudo=?");

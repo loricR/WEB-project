@@ -9,6 +9,8 @@ include("connexion-base.php");
 include_once("helpz/functions.php");
 include_once(__ROOT__."/PageParts/header.php");
 include_once(__ROOT__."/PageParts/menu-bar.php");
+include_once(__ROOT__."/PageParts/connexion.php");
+include_once(__ROOT__."/PageParts/inscription.php");
 
 $blogOwnerName = "";
 $isMyOwnBlog = false;
